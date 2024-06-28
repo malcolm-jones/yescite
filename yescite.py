@@ -68,3 +68,57 @@ def yescite(
         for line in new_bib:
             file.write(line)
     return None
+
+def paths_to_lines(bbl_path, bib_path):
+    with open(bbl_path, 'r', encoding='utf-8') as f:
+        bbl_lines = f.readlines()
+    with open(bib_path, 'r', encoding='utf-8') as f:
+        bib_lines = f.readlines()
+    return bbl_lines, bib_lines
+
+class YesCite:
+    """Features lines from .bib and .bbl and the associated yescite.
+
+        Attributes:
+            bbl (list) -- Lines in a .bbl
+            bib (list) -- Lines in a .bib
+            bbl_aliases (list) -- The aliases occuring in bbl
+            bib_aliases (list) -- The aliases occuring in bib
+            unused_aliases (list) -- The aliases in bib but not bbl
+            yescite (list) -- Sublist of bib giving the entries in bbl
+    """
+    def __init__(self, bbl_lines, bib_lines):
+        self.bbl = bbl_lines
+        self.bib = bib_lines
+
+        lines_wth_aliases = [
+            line for line in self.bbl if '\\entry{' in line
+        ]
+        self.bbl_aliases = [
+            line.split('entry{')[1].split('}')[0] for line in lines_wth_aliases
+        ]
+        
+        self.bib_aliases = [
+            line.split('{')[1].split(',')[0] for line in self.bib if '@' in line
+        ]
+        
+        self.unused_aliases = [
+            alias for alias in self.bib_aliases if alias not in self.bbl_aliases
+        ]
+        
+        yescite = []
+        for i in range(len(self.bib)):
+            line = self.bib[i]
+            if '@' in line:
+                alias = line.split('{')[1].split(',')[0]
+                if alias in self.bbl_aliases:
+                    j = i
+                    not_found_end = True
+                    while not_found_end:
+                        j += 1
+                        if self.bib[j].replace(' ', '') in ['}\n', '}']:
+                            not_found_end = False
+                    yescite.append(self.bib[i:j+1] + ['\n'])
+        self.yescite = [
+            line for item in yescite for line in item
+        ]
