@@ -3,12 +3,12 @@ from yescite import yescite
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST','GET'])
+@app.route('/', methods=['POST', 'GET'])
 def index():
 
-    input_bbl = ""
-    input_bib = ""
-    output_text = ""
+    input_bbl = ''
+    input_bib = ''
+    output_text = ''
 
     if request.method == 'POST':    
         input_bbl = request.form.get('input_bbl')
@@ -22,7 +22,7 @@ def index():
         'index.html', 
         input_bbl=input_bbl, 
         input_bib=input_bib, 
-        output_text=output_text
+        output_text=output_text,
     )
 
 if __name__ == '__main__':
