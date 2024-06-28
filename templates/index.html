@@ -12,6 +12,8 @@
 
 	<title>yescite &mdash; the intersection of .bib and .bbl</title>
 	<meta property="og:title" content="yescite &mdash; the intersection of .bib and .bbl"/>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
   
 </head>
 <body>
@@ -27,7 +29,7 @@
     <ul>
       <li>The <i>yescite</i> (reduced .bib file) preserves the entries of the .bib file that it keeps. This is advantageous compared to bibliography managers that modify your entries.</li>
       <li>The .bbl file is hidden for some editors. For example, in Overleaf, click &#x0022;Logs and output files&#x0022;, scroll down, click &#x0022;Other logs and files&#x0022;, click to download &#x0022;output.bbl&#x0022;. If there is no .bbl file, try recompiling.</li>
-      <li>If it doesn't work for you, then please get in touch by <a href="mailto:hello@malcolmjones.me">email</a> or log an issue on GitHub.</li>
+      <li>Please create an issue on <a href="https://github.com/malcolm-jones/yescite">GitHub</a> if you find problems.</li>
     </ul>
     <p><b>Motivation</b>: The .bib file for a project had become very large over time. I no longer cited many entries. Using <i>\nocite{*}</i> would show which entries I no longer cited, but there would still have been a lot of manual labour looking them up in the .bib and deleting them. Hence, <i>yescite</i> was intended to automatically find which entries I <i>did</i> cite, instead of those I did not.</p>
 
@@ -94,5 +96,13 @@
            DOI = {10.1016/j.jmaa.2018.06.052},
            URL = {https://doi.org/10.1016/j.jmaa.2018.06.052},
     }" id="output_text" rows="8" cols="160">{{ output_text }}</textarea>
+    <br>
+    <br>
+
+  <div class='footer'>
+    <a href="https://github.com/malcolm-jones/yescite"><i class="fab fa-github" style='font-size:30px'></i></a>
+    <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://malcolmjones.pythonanywhere.com/">This website</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://malcolmjones.me">Malcolm Jones</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
+  </div>
+
 </body>
 </html>
