@@ -2,7 +2,7 @@ import os
 
 def lines_bib_to_keep(
         lines_bbl, 
-        lines_bib
+        lines_bib,
 ):
     """Find the entries in lines_bib mentioned in lines_bbl.
 
