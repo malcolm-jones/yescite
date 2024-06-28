@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="author" content="Malcolm Jones" />
+	<meta name="description" content="Given .bib and .bbl files, this tool finds the bib items you cited and removes the rest, tidying your .bib file." />
+	<meta name="robots" content="unavailable_after: 2024-12-31">
+	<meta property="og:site_name" content="yescite"/>
+	<meta property="og:description" content="Given .bib and .bbl files, this tool finds the bib items you cited and removes the rest, tidying your .bib file."/>
+	<meta property="og:type" content="website"/>
+	<meta property="og:locale" content="en"/>
+
+	<title>yescite &mdash; the intersection of .bib and .bbl</title>
+	<meta property="og:title" content="yescite &mdash; the intersection of .bib and .bbl"/>
+  
+</head>
+<body>
+    <h1>yescite &mdash; the intersection of .bib and .bbl</h1>
+
+    <p><b>Purpose</b>: This tool removes unused items from a .bib file.</p>
+
+    <p><b>Requirement</b>: You have a .bbl file containing only used entries (e.g. automatically produced by <a href="https://www.bibtex.org/Using/">BibTeX</a>).</p>
+
+    <p><b>More precisely</b>: Given .bib and .bbl files, this tool returns a reduced version of the .bib, the <i>yescite</i>, containing entries from .bib only if they occur in the .bbl.</p>
+
+    <b>Notes</b>:
+    <ul>
+      <li>The <i>yescite</i> (reduced .bib file) preserves the entries of the .bib file that it keeps. This is advantageous compared to bibliography managers that modify your entries.</li>
+      <li>The .bbl file is hidden for some editors. For example, in Overleaf, click &#x0022;Logs and output files&#x0022;, scroll down, click &#x0022;Other logs and files&#x0022;, click to download &#x0022;output.bbl&#x0022;. If there is no .bbl file, try recompiling.</li>
+      <li>If it doesn't work for you, then please get in touch by <a href="mailto:hello@malcolmjones.me">email</a> or log an issue on GitHub.</li>
+    </ul>
+    <p><b>Motivation</b>: The .bib file for a project had become very large over time. I no longer cited many entries. Using <i>\nocite{*}</i> would show which entries I no longer cited, but there would still have been a lot of manual labour looking them up in the .bib and deleting them. Hence, <i>yescite</i> was intended to automatically find which entries I <i>did</i> cite, instead of those I did not.</p>
+
+    <form method="post" autocomplete="off">
+        <label for="input_bbl"><b>Copy contents of .bbl file here:</b></label><br>
+        <textarea placeholder="\refsection{0}
+        \datalist[entry]{anyt/global//global/global}
+          \entry{something_you_cited}{...}{}
+            ...
+          \endentry
+        \enddatalist
+      \endrefsection
+      \endinput" id="input_bbl" name="input_bbl" rows="8" cols="160">{{ input_bbl }}</textarea><br>
+        <label for="input_bib"><b>Copy contents of .bib file here:</b></label><br>
+        <textarea placeholder="@article {something_not_cited,
+            AUTHOR = {Clark, Lisa Orloff and Edie-Michell, Cain and an Huef, Astrid and Sims, Aidan},
+             TITLE = {Ideals of {S}teinberg algebras of strongly effective groupoids, with applications to {L}eavitt path algebras},
+           JOURNAL = {Trans. Amer. Math. Soc.},
+          FJOURNAL = {Transactions of the American Mathematical Society},
+            VOLUME = {371},
+              YEAR = {2019},
+            NUMBER = {8},
+             PAGES = {5461--5486},
+              ISSN = {0002-9947,1088-6850},
+           MRCLASS = {16S99 (16S10 16S88 22A22)},
+          MRNUMBER = {3937299},
+        MRREVIEWER = {Anton\ Deitmar},
+               DOI = {10.1090/tran/7460},
+               URL = {https://doi.org/10.1090/tran/7460},
+        }
+        
+        @article {something_cited,
+            AUTHOR = {Armstrong, Becky and Brownlowe, Nathan},
+             TITLE = {Product-system models for twisted $\mathrm{C}^*$\nobreakdash-algebras of topological higher-rank graphs},
+           JOURNAL = {J. Math. Anal. Appl.},
+          FJOURNAL = {Journal of Mathematical Analysis and Applications},
+            VOLUME = {466},
+              YEAR = {2018},
+            NUMBER = {2},
+             PAGES = {1443--1475},
+              ISSN = {0022-247X,1096-0813},
+           MRCLASS = {46L05 (46L40 46L55)},
+          MRNUMBER = {3825450},
+        MRREVIEWER = {Robert\ Olkiewicz},
+               DOI = {10.1016/j.jmaa.2018.06.052},
+               URL = {https://doi.org/10.1016/j.jmaa.2018.06.052},
+        }" id="input_bib" name="input_bib" rows="8" cols="160">{{ input_bib }}</textarea><br>
+        <input type="submit" value="Generate yescite"><br>
+    </form><br>
+    <label for="input_bib"><b>Here is the yescite:</b></label><br>
+    <textarea placeholder="@article {something_cited,
+        AUTHOR = {Armstrong, Becky and Brownlowe, Nathan},
+         TITLE = {Product-system models for twisted $\mathrm{C}^*$\nobreakdash-algebras of topological higher-rank graphs},
+       JOURNAL = {J. Math. Anal. Appl.},
+      FJOURNAL = {Journal of Mathematical Analysis and Applications},
+        VOLUME = {466},
+          YEAR = {2018},
+        NUMBER = {2},
+         PAGES = {1443--1475},
+          ISSN = {0022-247X,1096-0813},
+       MRCLASS = {46L05 (46L40 46L55)},
+      MRNUMBER = {3825450},
+    MRREVIEWER = {Robert\ Olkiewicz},
+           DOI = {10.1016/j.jmaa.2018.06.052},
+           URL = {https://doi.org/10.1016/j.jmaa.2018.06.052},
+    }" id="output_text" rows="8" cols="160">{{ output_text }}</textarea>
+</body>
+</html>
