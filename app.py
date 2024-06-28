@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from yescite import yescite
+from yescite import lines_bib_to_keep
 
 app = Flask(__name__)
 
@@ -15,11 +15,7 @@ def index():
         input_bib = request.form.get('input_bib')
         lines_bbl = input_bbl.splitlines()
         lines_bib = input_bib.splitlines()
-        new_bib = yescite(
-            use_app=True, 
-            lines_bbl=lines_bbl, 
-            lines_bib=lines_bib,
-        )
+        new_bib = lines_bib_to_keep(lines_bbl, lines_bib)
         output_text = '\n'.join(new_bib)
     
     return render_template(
