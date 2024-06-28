@@ -3,15 +3,6 @@ from yescite import yescite
 
 app = Flask(__name__)
 
-def process_text(input_bbl, input_bib):
-
-    lines_bbl = input_bbl.splitlines()
-    lines_bib = input_bib.splitlines()
-    
-    new_bib = yescite(app=True, lines_bbl=lines_bbl, lines_bib=lines_bib)
-
-    return "\n".join(new_bib)
-
 @app.route('/', methods=['POST','GET'])
 def index():
 
@@ -22,7 +13,10 @@ def index():
     if request.method == 'POST':    
         input_bbl = request.form.get('input_bbl')
         input_bib = request.form.get('input_bib')
-        output_text = process_text(input_bbl, input_bib)
+        lines_bbl = input_bbl.splitlines()
+        lines_bib = input_bib.splitlines()
+        new_bib = yescite(app=True, lines_bbl=lines_bbl, lines_bib=lines_bib)
+        output_text = '\n'.join(new_bib)
     
     return render_template(
         'index.html', 
