@@ -31,14 +31,14 @@ def lines_bib_to_keep(
     return new_bib
 
 def yescite(
-        app=False,
+        use_app=False,
         path_bbl='example/example.bbl',
         path_bib='example/example.bib',
         path_yescite='output/yescite.bib',
         lines_bbl=None,
         lines_bib=None,
 ):
-    if not app:
+    if not use_app:
         with open(path_bbl, 'r', encoding='utf-8') as f:
             lines_bbl = f.readlines()
         with open(path_bib, 'r', encoding='utf-8') as f:
