@@ -9,6 +9,8 @@ def index():
     input_bbl = ''
     input_bib = ''
     output_yescite = ''
+    output_aliases_used = ''
+    output_aliases_unused = ''
 
     if request.method == 'POST':    
         input_bbl = request.form.get('input_bbl')
