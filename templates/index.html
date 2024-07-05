@@ -14,6 +14,18 @@
 	<meta property="og:title" content="yescite &mdash; the intersection of .bib and .bbl"/>
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+
+  <style>
+    .inline-block {
+      display: inline-block;
+    }
+    .inline-block p{
+      float: left;
+    }
+    #badge {
+      border-left:10px solid transparent;
+    }
+  </style>
   
 </head>
 <body>
@@ -98,10 +110,17 @@
     }" id="output_yescite" rows="8" cols="160">{{ output_yescite }}</textarea>
     <br>
     <p>The yescite includes:<br>{{ output_aliases_used }}<br>and excludes:<br>{{ output_aliases_unused }}.</p>
-    <br>
-
+    
+    <div class="inline-block">
+      <p id="badge">
+        <a href="https://github.com/malcolm-jones/yescite"><i class="fab fa-github" style='font-size:40px'></i></a>
+      </p>
+      <p id="badge">
+        <a href="https://www.buymeacoffee.com/malcolmjones"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="40px"></a>
+      </p>
+    </div>
+    
   <div class='footer'>
-    <a href="https://github.com/malcolm-jones/yescite"><i class="fab fa-github" style='font-size:30px'></i></a>
     <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://malcolmjones.pythonanywhere.com/">This website</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://malcolmjones.me">Malcolm Jones</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
   </div>
 
