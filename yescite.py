@@ -82,9 +82,9 @@ class YesCite:
         Attributes:
             bbl (list) -- Lines in a .bbl
             bib (list) -- Lines in a .bib
-            bbl_aliases (list) -- The aliases occuring in bbl
-            bib_aliases (list) -- The aliases occuring in bib
-            unused_aliases (list) -- The aliases in bib but not bbl
+            aliases_used (list) -- The aliases occuring in bbl
+            aliases_all (list) -- The aliases occuring in bib
+            aliases_unused (list) -- The aliases in bib but not bbl
             yescite (list) -- Sublist of bib giving the entries in bbl
     """
     def __init__(self, bbl_lines, bib_lines):
@@ -94,16 +94,16 @@ class YesCite:
         lines_wth_aliases = [
             line for line in self.bbl if '\\entry{' in line
         ]
-        self.bbl_aliases = [
+        self.aliases_used = [
             line.split('entry{')[1].split('}')[0] for line in lines_wth_aliases
         ]
         
-        self.bib_aliases = [
+        self.aliases_all = [
             line.split('{')[1].split(',')[0] for line in self.bib if '@' in line
         ]
         
-        self.unused_aliases = [
-            alias for alias in self.bib_aliases if alias not in self.bbl_aliases
+        self.aliases_unused = [
+            alias for alias in self.aliases_all if alias not in self.aliases_used
         ]
         
         yescite = []
@@ -111,7 +111,7 @@ class YesCite:
             line = self.bib[i]
             if '@' in line:
                 alias = line.split('{')[1].split(',')[0]
-                if alias in self.bbl_aliases:
+                if alias in self.aliases_used:
                     j = i
                     not_found_end = True
                     while not_found_end:
