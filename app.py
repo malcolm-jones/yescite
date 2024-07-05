@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from yescite import lines_bib_to_keep
+from yescite import YesCite
 
 app = Flask(__name__)
 
@@ -15,8 +15,8 @@ def index():
         input_bib = request.form.get('input_bib')
         lines_bbl = input_bbl.splitlines()
         lines_bib = input_bib.splitlines()
-        new_bib = lines_bib_to_keep(lines_bbl, lines_bib)
-        output_text = '\n'.join(new_bib)
+        yc = YesCite(lines_bbl, lines_bib)
+        output_text = '\n'.join(yc.yescite)
     
     return render_template(
         'index.html', 
