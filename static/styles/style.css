@@ -1,0 +1,213 @@
+* {
+	padding:0;
+	margin:0;
+	box-sizing: border-box;
+}
+
+:root {
+	--color-primary: #32692a; 
+	--color-secondary: #3b7b31; 
+	--color-profiles-primary: #646464;
+	--color-profiles-secondary: #4d4d4d;
+	--my-max-width: 800px;
+}
+
+.header {
+	background-color: #FFFFFF;
+	color: #FFFFFF;
+	padding: 10px;
+	color:var(--color-primary);
+	font-size:200%;
+}
+
+.menu {
+	width: 100%;
+	float: left;
+	padding: 10px;
+}
+
+.main {
+	width: 100%;
+	float: left;
+	padding: 10px;
+}
+
+/* container */
+.two-columns-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+/* columns */
+.two-columns-grid > * {
+    padding:1rem;
+}
+
+body {
+	color: #000000;
+	background-color:#FFFFFF;
+	font-family:Arial, sans-serif;
+	margin:20px auto;
+	max-width:var(--my-max-width);
+	padding-left:5px;
+	padding-right:5px;
+}
+
+h1, h2, h3, h4, p, ul { margin:0.75em 0;}
+
+h1 {font-size:180%;}
+
+h2 {font-size:160%;}
+
+h3 {font-size:140%;}
+
+h4 {font-size:120%;}
+
+li, dd { 
+	margin-left:2em;
+}
+
+a {
+	color: var(--color-primary);
+	background-color: #FFFFFF;
+	font-weight: normal;
+	text-decoration: none;
+	outline:none;
+}
+
+a:hover {
+	color: var(--color-primary);
+	background-color: #FFFFFF;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+.youtube-video-container {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+}
+
+.youtube-video-container::after {
+	display: block;
+	content: "";
+	padding-top: 56.25%;
+}
+
+.youtube-video-container iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.container {
+	text-align: center;
+}
+
+img {
+	max-width: 80%;
+	height: auto;
+}
+
+.caption {
+	font-size: 80%;
+	color: #000000;
+	margin-top: 10px;
+}
+
+#maincontent {
+	font-size:100%;
+	padding:0px 5px 5px 0px;
+	margin:10px 0px 10px 0px;
+	max-width:var(--my-max-width);
+	float:left;
+}
+
+/* Navigation */
+
+ul{
+	display: table;
+    width:100%;
+}
+
+/* Links to profiles on research page */
+
+ul#nav {
+	clear:both;
+	float:left;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	max-width: var(--my-max-width);
+}
+
+ul#nav li {
+	margin: 0;
+	padding: 0;
+	float: left;
+	width:100%;
+	text-align: center;
+}
+
+ul#nav li a {
+	display: block;
+	font-size: small;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-decoration: none;
+	background: var(--color-secondary);
+	padding: 2px 0px 2px 0px;
+}
+
+ul#nav li a:hover { background: var(--color-primary); color: #FFFFFF; }
+ul#nav a.selected:link { background: var(--color-secondary); color: #FFFFFF; }
+ul#nav a.selected:visited { background: var(--color-primary); color: #FFFFFF; }
+
+/* Links to profiles on research page */
+
+ul#profiles {
+	clear:both;
+	float:left;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	max-width: var(--my-max-width);
+}
+
+ul#profiles li {
+	margin: 0;
+	padding: 0;
+	float: left;
+	width:100%;
+	text-align: center;
+}
+
+ul#profiles li a {
+	display: block;
+	font-size: small;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-decoration: none;
+	background: var(--color-profiles-primary);
+	padding: 2px 0px 2px 0px;
+}
+
+ul#profiles li a:hover { background: var(--color-profiles-secondary); color: #FFFFFF; }
+
+#footer {
+	color: var(--color-profiles-secondary);
+	border-top:1px solid var(--color-profiles-secondary);
+	font-size:80%;
+	line-height:1.5em;
+	max-width: var(--my-max-width);
+	clear:both;
+}
+
+#copyright {
+	color: var(--color-profiles-secondary);
+	background-color:#FFFFFF;
+	padding:5px 20px 5px 0px;
+	float:left;
+}

@@ -12,7 +12,7 @@
 
 	<title>yescite &mdash; remove unused entries from your .bib</title>
 	<meta property="og:title" content="yescite &mdash; the intersection of .bib and .bbl"/>
-
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
 
   <style>
@@ -25,11 +25,38 @@
     #badge {
       border-left:10px solid transparent;
     }
+    textarea {
+      width: 100%;
+      resize: none;
+    }
+    .parent {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   </style>
   
 </head>
 <body>
-    <h1>yescite &mdash; remove unused entries from your .bib</h1>
+
+  <div class="header">yescite &mdash; remove unused entries from your .bib</div>
+  
+	<div class="menu">
+		<ul id="profiles">
+			<li><a href="https://malcolmjones.me/" rel="noopener" target="_blank">Personal Homepage</a></li>
+		</ul>
+	</div>
+
+	<div class="menu">
+		<ul id="profiles">
+			<li><a href="#background">Background</a></li>
+      <li><a href="#tool">Jump to Tool</a></li>
+		</ul>
+	</div>
+
+  <div class="main">
+
+    <h2 id="background">Background</h2>
 
     <p><b>Purpose</b>: This tool removes unused items from a .bib file.</p>
 
@@ -45,84 +72,32 @@
     </ul>
     <p><b>Motivation</b>: The .bib file for a project had become very large over time. I no longer cited many entries. Using <i>\nocite{*}</i> would show which entries I no longer cited, but there would still have been a lot of manual labour looking them up in the .bib and deleting them. Hence, <i>yescite</i> was intended to automatically find which entries I <i>did</i> cite, instead of those I did not.</p>
 
+    <h2 id="tool">Tidy my .bib</h2>
+
     <form method="post" autocomplete="off">
-        <label for="input_bbl"><b>Copy contents of .bbl file here:</b></label><br>
-        <textarea placeholder="\refsection{0}
-        \datalist[entry]{anyt/global//global/global}
-          \entry{something_you_cited}{...}{}
-            ...
-          \endentry
-        \enddatalist
-      \endrefsection
-      \endinput" id="input_bbl" name="input_bbl" rows="8" cols="160">{{ input_bbl }}</textarea><br>
-        <label for="input_bib"><b>Copy contents of .bib file here:</b></label><br>
-        <textarea placeholder="@article {something_not_cited,
-            AUTHOR = {Clark, Lisa Orloff and Edie-Michell, Cain and an Huef, Astrid and Sims, Aidan},
-             TITLE = {Ideals of {S}teinberg algebras of strongly effective groupoids, with applications to {L}eavitt path algebras},
-           JOURNAL = {Trans. Amer. Math. Soc.},
-          FJOURNAL = {Transactions of the American Mathematical Society},
-            VOLUME = {371},
-              YEAR = {2019},
-            NUMBER = {8},
-             PAGES = {5461--5486},
-              ISSN = {0002-9947,1088-6850},
-           MRCLASS = {16S99 (16S10 16S88 22A22)},
-          MRNUMBER = {3937299},
-        MRREVIEWER = {Anton\ Deitmar},
-               DOI = {10.1090/tran/7460},
-               URL = {https://doi.org/10.1090/tran/7460},
-        }
-        
-        @article {something_cited,
-            AUTHOR = {Armstrong, Becky and Brownlowe, Nathan},
-             TITLE = {Product-system models for twisted $\mathrm{C}^*$\nobreakdash-algebras of topological higher-rank graphs},
-           JOURNAL = {J. Math. Anal. Appl.},
-          FJOURNAL = {Journal of Mathematical Analysis and Applications},
-            VOLUME = {466},
-              YEAR = {2018},
-            NUMBER = {2},
-             PAGES = {1443--1475},
-              ISSN = {0022-247X,1096-0813},
-           MRCLASS = {46L05 (46L40 46L55)},
-          MRNUMBER = {3825450},
-        MRREVIEWER = {Robert\ Olkiewicz},
-               DOI = {10.1016/j.jmaa.2018.06.052},
-               URL = {https://doi.org/10.1016/j.jmaa.2018.06.052},
-        }" id="input_bib" name="input_bib" rows="8" cols="160">{{ input_bib }}</textarea><br>
-        <input type="submit" value="Generate yescite"><br>
+        <textarea placeholder="Copy .bbl here..." id="input_bbl" name="input_bbl" rows="8">{{ input_bbl }}</textarea><br><br>
+        <textarea placeholder="Copy .bib here..." id="input_bib" name="input_bib" rows="8">{{ input_bib }}</textarea><br><br>
+        <input type="submit" value="Tidy .bib"/>
     </form><br>
-    <label for="input_bib"><b>Here is the yescite:</b></label><br>
-    <textarea placeholder="@article {something_cited,
-        AUTHOR = {Armstrong, Becky and Brownlowe, Nathan},
-         TITLE = {Product-system models for twisted $\mathrm{C}^*$\nobreakdash-algebras of topological higher-rank graphs},
-       JOURNAL = {J. Math. Anal. Appl.},
-      FJOURNAL = {Journal of Mathematical Analysis and Applications},
-        VOLUME = {466},
-          YEAR = {2018},
-        NUMBER = {2},
-         PAGES = {1443--1475},
-          ISSN = {0022-247X,1096-0813},
-       MRCLASS = {46L05 (46L40 46L55)},
-      MRNUMBER = {3825450},
-    MRREVIEWER = {Robert\ Olkiewicz},
-           DOI = {10.1016/j.jmaa.2018.06.052},
-           URL = {https://doi.org/10.1016/j.jmaa.2018.06.052},
-    }" id="output_yescite" rows="8" cols="160">{{ output_yescite }}</textarea>
-    <br>
-    <p>The yescite includes:<br>{{ output_aliases_used }}<br>and excludes:<br>{{ output_aliases_unused }}.</p>
+    <textarea placeholder="Tidied .bib will appear here." id="output_yescite" rows="8">{{ output_yescite }}</textarea><br>
+    <p>The tidied .bib includes:<br>{{ output_aliases_used }}<br>and excludes:<br>{{ output_aliases_unused }}.</p>
     
-    <div class="inline-block">
-      <p id="badge">
-        <a href="https://github.com/malcolm-jones/yescite"><i class="fab fa-github" style='font-size:40px'></i></a>
-      </p>
-      <p id="badge">
-        <a href="https://www.buymeacoffee.com/malcolmjones"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="40px"></a>
-      </p>
+    <div class="parent">
+      <div class="inline-block">
+        <p id="badge">
+          <a href="https://github.com/malcolm-jones/yescite"><i class="fab fa-github" style='font-size:40px'></i></a>
+        </p>
+        <p id="badge">
+          <a href="https://www.buymeacoffee.com/malcolmjones"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="40px"></a>
+        </p>
+      </div>
     </div>
-    
-  <div class='footer'>
-    <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://malcolmjones.pythonanywhere.com/">This website</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://malcolmjones.me">Malcolm Jones</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
+
   </div>
+    
+	<div id="footer">
+		<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://malcolmjones.me">This website</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://malcolmjones.me">Malcolm Jones</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
+	</div>	
 
 </body>
 </html>
