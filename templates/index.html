@@ -4,13 +4,13 @@
 	<meta charset="UTF-8" />
 	<meta name="author" content="Malcolm Jones" />
 	<meta name="description" content="Given .bib and .bbl files, this tool finds the bib items you cited and removes the rest, tidying your .bib file." />
-	<meta name="robots" content="unavailable_after: 2024-12-31">
+	<meta name="robots" content="unavailable_after: 2025-12-31">
 	<meta property="og:site_name" content="yescite"/>
 	<meta property="og:description" content="Given .bib and .bbl files, this tool finds the bib items you cited and removes the rest, tidying your .bib file."/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:locale" content="en"/>
 
-	<title>yescite &mdash; remove unused entries from your .bib</title>
+	<title>YesCite</title>
 	<meta property="og:title" content="yescite &mdash; the intersection of .bib and .bbl"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
@@ -39,45 +39,20 @@
 </head>
 <body>
 
-  <div class="header">yescite &mdash; remove unused entries from your .bib</div>
-  
-	<div class="menu">
-		<ul id="profiles">
-			<li><a href="https://malcolmjones.me/" rel="noopener" target="_blank">Personal Homepage</a></li>
-		</ul>
-	</div>
-
-	<div class="menu">
-		<ul id="profiles">
-			<li><a href="#background">Background</a></li>
-      <li><a href="#tool">Jump to Tool</a></li>
-		</ul>
-	</div>
+  <div class="header">YesCite</div>
 
   <div class="main">
 
-    <h2 id="background">Background</h2>
+    <p>This tool tidies your .bib file by removing any unused entries in your project.</p>
 
-    <p><b>Purpose</b>: This tool removes unused items from a .bib file.</p>
+    <p> <b>Requirement</b>: You need to be using BibTeX. This generates a .bbl that says which .bib entries are being used. The tidied .bib file contains the entries that appear in the .bbl.</p>
 
-    <p><b>Requirement</b>: You have a .bbl file containing only used entries (e.g. automatically produced by <a href="https://www.bibtex.org/Using/">BibTeX</a>).</p>
-
-    <p><b>More precisely</b>: Given .bib and .bbl files, this tool returns a reduced version of the .bib, the <i>yescite</i>, containing entries from .bib only if they occur in the .bbl.</p>
-
-    <b>Notes</b>:
-    <ul>
-      <li>The <i>yescite</i> (reduced .bib file) preserves the entries of the .bib file that it keeps. This is advantageous compared to bibliography managers that modify your entries.</li>
-      <li>The .bbl file is hidden for some editors. For example, in Overleaf, click &#x0022;Logs and output files&#x0022;, scroll down, click &#x0022;Other logs and files&#x0022;, click to download &#x0022;output.bbl&#x0022;. If there is no .bbl file, try recompiling.</li>
-      <li>Please create an issue on <a href="https://github.com/malcolm-jones/yescite">GitHub</a> if you find problems.</li>
-    </ul>
-    <p><b>Motivation</b>: The .bib file for a project had become very large over time. I no longer cited many entries. Using <i>\nocite{*}</i> would show which entries I no longer cited, but there would still have been a lot of manual labour looking them up in the .bib and deleting them. Hence, <i>yescite</i> was intended to automatically find which entries I <i>did</i> cite, instead of those I did not.</p>
-
-    <h2 id="tool">Tidy my .bib</h2>
-
+    <p><b>Find your .bbl on Overleaf</b>: In Overleaf, to find your .bbl: click &#x0022;Logs and output files&#x0022;, scroll down, click &#x0022;Other logs and files&#x0022;, and click to download &#x0022;output.bbl&#x0022;. If there is no .bbl file, try recompiling.</p>
+    
     <form method="post" autocomplete="off">
-        <textarea placeholder="Copy .bbl here..." id="input_bbl" name="input_bbl" rows="8">{{ input_bbl }}</textarea><br><br>
-        <textarea placeholder="Copy .bib here..." id="input_bib" name="input_bib" rows="8">{{ input_bib }}</textarea><br><br>
-        <input type="submit" value="Tidy .bib"/>
+      <textarea placeholder="Copy .bbl here..." id="input_bbl" name="input_bbl" rows="8">{{ input_bbl }}</textarea><br><br>
+      <textarea placeholder="Copy .bib here..." id="input_bib" name="input_bib" rows="8">{{ input_bib }}</textarea><br><br>
+      <input type="submit" value="Tidy .bib"/>
     </form><br>
     <textarea placeholder="Tidied .bib will appear here." id="output_yescite" rows="8">{{ output_yescite }}</textarea><br>
     <p>The tidied .bib includes:<br>{{ output_aliases_used }}<br>and excludes:<br>{{ output_aliases_unused }}.</p>
@@ -92,7 +67,7 @@
         </p>
       </div>
     </div>
-
+    
   </div>
     
 	<div id="footer">
