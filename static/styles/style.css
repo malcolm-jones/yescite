@@ -9,9 +9,14 @@
 }
 
 :root {
-	--color-primary: #000000; 
-	--color-secondary: #789600; 
+	--color-primary: #1c1b22; 
+	--color-secondary: #FFFFFF;
 	--my-max-width: 800px;
+}
+
+.dark-mode {
+	--color-secondary: #1c1b22; 
+	--color-primary: #FFFFFF;
 }
 
 .header {
@@ -39,10 +44,10 @@
 	width: 100%;
 	height: auto;
 	padding-left: 10px;
-	border-top: 1px solid black;
-	border-left: 1px solid black;
-	border-right: 1px solid black;
-	border-bottom: 0px solid black;
+	border-top: 1px solid var(--color-primary);
+	border-left: 1px solid var(--color-primary);
+	border-right: 1px solid var(--color-primary);
+	border-bottom: 0px solid var(--color-primary);
 	margin: 0;
 	background-color: var(--color-primary);
 	color: var(--color-secondary);
@@ -53,7 +58,7 @@
 	height: auto;
 	padding-left: 10px;
 	padding-right: 10px;
-	border: 1px solid black;
+	border: 1px solid var(--color-primary);
 	margin: 0;
 }
 
@@ -225,8 +230,8 @@ details {
 /* Copy to clipboard buttons */
 
 .copy {
-	background-color: var(--color-secondary);
 	color: var(--color-primary);
+	background-color: var(--color-secondary);
 	border-radius: 6px;
 	display: flex;
 	justify-content: center;
