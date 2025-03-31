@@ -66,7 +66,7 @@
 </head>
 <body>
 
-  <div class="header">YesCite</div>
+  <div class="header">YesCite&mdash;tidying your .bib</div>
 
   <button type="button" class="dark" id="darkModeToggle" style="display: block; margin-bottom: 10px;">
 		Dark Mode
@@ -76,9 +76,11 @@
 
     <p>This tool tidies your .bib file by removing any unused entries in your project.</p>
 
-    <p> <b>Requirement</b>: You need to be using BibTeX. This generates a .bbl that says which .bib entries are being used. The tidied .bib file contains the entries that appear in the .bbl.</p>
+    <p>If there are other ways you'd like it to tidy your .bib, please <a href="https://malcolmjones.me" rel="noopener" target="_blank">contact</a> me to let me know or raise an issue on <a href="https://github.com/malcolm-jones/yescite" rel="noopener" target="_blank">GitHub</a>.</p>
 
-    <p><b>Find your .bbl on Overleaf</b>: In Overleaf, to find your .bbl: click &#x0022;Logs and output files&#x0022;, scroll down, click &#x0022;Other logs and files&#x0022;, and click to download &#x0022;output.bbl&#x0022;. If there is no .bbl file, try recompiling. If there is still no .bbl file, check if you are using BibTeX.</p>
+    <p><b>Requires</b>: The auxiliary .bbl file for your LaTeX project.</p>
+
+    <p><b>Find your .bbl on Overleaf</b>: In Overleaf, to find your .bbl: click &#x0022;Logs and output files&#x0022;, scroll down, click &#x0022;Other logs and files&#x0022;, and click to download &#x0022;output.bbl&#x0022;.</p>
     
     <form method="post" autocomplete="off">
       <textarea placeholder="Copy .bbl here..." id="input_bbl" name="input_bbl" rows="8">{{ input_bbl }}</textarea><br><br>
