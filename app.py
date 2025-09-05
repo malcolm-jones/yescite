@@ -1,5 +1,6 @@
-from flask import Flask, request, render_template
-from yescite import YesCite
+from flask import Flask, request, render_template, Response
+from yescite import YesCite, bib_to_df
+import io
 
 app = Flask(__name__)
 
@@ -29,6 +30,20 @@ def index():
         output_yescite=output_yescite,
         output_aliases_used=output_aliases_used,
         output_aliases_unused=output_aliases_unused,
+    )
+
+@app.route('/download_csv', methods=['POST'])
+def download_csv():
+    input_bib = request.form.get('input_bib', '')
+    lines_bib = input_bib.splitlines()
+    df = bib_to_df(lines_bib)
+    csv_buffer = io.StringIO()
+    df.to_csv(csv_buffer, index=False)
+    csv_buffer.seek(0)
+    return Response(
+        csv_buffer,
+        mimetype='text/csv',
+        headers={"Content-Disposition": "attachment;filename=bib.csv"}
     )
 
 if __name__ == '__main__':

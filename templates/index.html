@@ -3,17 +3,17 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="author" content="Malcolm Jones" />
-	<meta name="description" content="Given .bib and .bbl files, this tool finds the bib items you cited and removes the rest, tidying your .bib file." />
+	<meta name="description" content="This site provides tools for managing and exploring your .bib files." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta name="robots" content="unavailable_after: 2025-12-31">
   <meta name= "robots" content="index, follow"/>
 
   <meta property="og:url" content="https://malcolmjones.pythonanywhere.com/"/>
 	<meta property="og:site_name" content="YesCite"/>
-	<meta property="og:description" content="Given .bib and .bbl files, this tool finds the bib items you cited and removes the rest, tidying your .bib file."/>
+	<meta property="og:description" content="This site provides tools for managing and exploring your .bib files."/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:locale" content="en"/>
-	<meta property="og:title" content="YesCite&mdash;tidying your .bib"/>
+	<meta property="og:title" content="YesCite"/>
 
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
@@ -56,6 +56,18 @@
       background: var(--color-secondary);
       color: var(--color-primary)
     }
+    button[type="submit"] {
+      background: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      color: var(--color-secondary);
+      padding: 10px;
+      cursor: pointer;
+      transition: 0.1s ease-in-out;
+    }
+    button[type="submit"]:hover {
+      background: var(--color-secondary);
+      color: var(--color-primary)
+    }
     .parent {
       display: flex;
       justify-content: center;
@@ -66,7 +78,7 @@
 </head>
 <body>
 
-  <div class="header">YesCite&mdash;tidying your .bib</div>
+  <div class="header">YesCite &mdash; tidying/exploring your .bib</div>
 
   <button type="button" class="dark" id="darkModeToggle" style="display: block; margin-bottom: 10px;">
 		Dark Mode
@@ -74,21 +86,42 @@
 
   <div class="main">
 
-    <p>This tool tidies your .bib file by removing any unused entries in your project.</p>
+    <p>Welcome! This site offers tools for managing/exploring your .bib file. If you have ideas about new tools to add, or if you find issues with the existing tools, please <a href="https://malcolmjones.me" rel="noopener" target="_blank">contact</a> me or raise an issue on <a href="https://github.com/malcolm-jones/yescite" rel="noopener" target="_blank">GitHub</a>.</p>
 
-    <p>If there are other ways you'd like it to tidy your .bib, please <a href="https://malcolmjones.me" rel="noopener" target="_blank">contact</a> me to let me know or raise an issue on <a href="https://github.com/malcolm-jones/yescite" rel="noopener" target="_blank">GitHub</a>.</p>
+    <p><b>Tools</b>:</p>
+
+    <div class="menu">
+      <ul id="nav">
+        <li><a href="#yescite">YesCite</a></li>
+        <li><a href="#bibtocsv">Convert .bib to .csv</a></li>
+      </ul>
+    </div>
+
+    <h2 id="yescite">YesCite</h2>
+
+    <p>This tool tidies your .bib file by removing any unused entries in your project.</p>
 
     <p><b>Requires</b>: The auxiliary .bbl file for your LaTeX project.</p>
 
-    <p><b>Find your .bbl on Overleaf</b>: In Overleaf, to find your .bbl: click &#x0022;Logs and output files&#x0022;, scroll down, click &#x0022;Other logs and files&#x0022;, and click to download &#x0022;output.bbl&#x0022;.</p>
+    <p><b>Finding your .bbl on Overleaf</b>: In Overleaf, to find your .bbl: click &#x0022;Logs and output files&#x0022;, scroll down, click &#x0022;Other logs and files&#x0022;, and click to download &#x0022;output.bbl&#x0022;.</p>
     
     <form method="post" autocomplete="off">
-      <textarea placeholder="Copy .bbl here..." id="input_bbl" name="input_bbl" rows="8">{{ input_bbl }}</textarea><br><br>
-      <textarea placeholder="Copy .bib here..." id="input_bib" name="input_bib" rows="8">{{ input_bib }}</textarea><br><br>
+      <textarea placeholder="Paste .bbl here..." id="input_bbl" name="input_bbl" rows="8">{{ input_bbl }}</textarea><br><br>
+      <textarea placeholder="Paste .bib here..." id="input_bib" name="input_bib" rows="8">{{ input_bib }}</textarea><br><br>
       <input type="submit" value="Tidy .bib"/>
     </form><br>
     <textarea placeholder="Tidied .bib will appear here." id="output_yescite" rows="8">{{ output_yescite }}</textarea><br>
     <p>The tidied .bib includes:<br>{{ output_aliases_used }}<br>and excludes:<br>{{ output_aliases_unused }}.</p>
+
+    <h2 id="bibtocsv">Convert your .bib to a .csv</h2>
+
+    <p>
+      Paste your .bib below, and click the button to download it as a csv. This is only a first attempt, so there are teething issues. Please <a href="https://malcolmjones.me" rel="noopener" target="_blank">email</a> me or raise an issue on <a href="https://github.com/malcolm-jones/yescite" rel="noopener" target="_blank">GitHub</a> if you would like to see improvements.
+    </p>
+    <form action="/download_csv" method="post">
+      <textarea placeholder="Paste .bib here..." name="input_bib" rows="8">{{ input_bib }}</textarea><br><br>
+      <button type="submit">Download .csv</button>
+    </form>
     
     <div class="parent">
       <div class="inline-block">
