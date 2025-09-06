@@ -135,13 +135,15 @@ def bib_to_df(lines_bib):
             df (pd.DataFrame) -- A pandas DataFrame containing the entries in 
             the .bib.
     """    
-    # remove empty lines
-    lines_bib = [x for x in lines_bib if len(x) != 0] 
-    # remove ending commas
-    lines_bib = [x[:-1] if x[-1] == "," else x for x in lines_bib] 
     # left-align (remove left-side spaces)
     lines_bib = [x.lstrip() for x in lines_bib]
-
+    # remove empty lines
+    lines_bib = [x for x in lines_bib if len(x) != 0] 
+    # remove comments
+    lines_bib = [x for x in lines_bib if x[0] != "%"]
+    # remove ending commas
+    lines_bib = [x[:-1] if x[-2:] == "}," else x for x in lines_bib] 
+    
     new = []
     for n in range(len(lines_bib)):
         line = lines_bib[n]
@@ -150,35 +152,30 @@ def bib_to_df(lines_bib):
             reftype = line.split("@")[1].split("{")[0].replace(' ', '')
             new.append("type = {" + reftype + "}")
             # reformat citation label
-            label = line.split("{")[1]
+            label = line.split("{")[1][:-1]
             new.append("label = {" + label + "}")
         else:
             new.append(line)
     lines_bib = new
-
-    # join together any features of the entry occupying multiple lines
-    while len([
-        lines_bib[n] 
-        for n in range(len(lines_bib)) 
-        if lines_bib[n][-1] not in ["\"", "}"]
-        ]) != 0:
-        for n in range(len(lines_bib)):
-            if lines_bib[n][-1] not in ["\"", "}"]:
-                lines_bib[n] = ' '.join([lines_bib[n], lines_bib[n+1]])
-    # tidying
-    lines_bib = [x for x in lines_bib 
-                 if x.count("{") == x.count("}") or len(x) == 1
-                ]
-    # more tidying
-    lines_bib = [x for x in lines_bib 
-                 if x[-1] != "\""
-                ]
 
     # separate into lists of lists
     items = [
         list(group) 
         for k, group in groupby(lines_bib, key=lambda x: x == "}") if not k
     ]
+
+    # join together any features of the entry occupying multiple lines
+    for m in range(len(items)):
+        item = items[m]
+        n = 0
+        while n < len(item):
+            x = item[n]
+            x = "".join(c for c in x if not c.isalpha()).lstrip()
+            if x.startswith("="):
+                n += 1
+            else:
+                item[n-1] = ' '.join([item[n-1], item[n]])
+                item.pop(n)
 
     # make into dictionary and convert to DataFrame
     for m in range(len(items)):
@@ -191,3 +188,9 @@ def bib_to_df(lines_bib):
     df = pd.DataFrame(dicts)
 
     return df
+
+### Development
+# with open(path_bib, 'r', encoding='utf-8') as f:
+#     lines_bib = f.readlines()
+# lines_bib = [x.removesuffix("\n") for x in lines_bib]
+# x = lines_bib[5]
