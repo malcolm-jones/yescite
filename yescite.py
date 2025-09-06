@@ -144,18 +144,15 @@ def bib_to_df(lines_bib):
     # remove ending commas
     lines_bib = [x[:-1] if x[-2:] in ["},","\","] else x for x in lines_bib]
     # make sure closing brackets of all entries are on their own line 
-    new = []
-    for n in range(len(lines_bib)):
-        line = lines_bib[n]
-        if line.count("}") > line.count("{"):
-            if not line.startswith("}"):
-                new.append(line[:-1])
-                new.append("}")
-            else:
-                new.append(line)
-        else:
-            new.append(line)
-    lines_bib = new
+    new_entry_indices = [n for n in range(len(lines_bib)) 
+                         if lines_bib[n].startswith("@")]
+    assert new_entry_indices[0] == 0
+    new_entry_indices.reverse()
+    for i in new_entry_indices[:-1]:
+        if not lines_bib[i-1].startswith("}"):
+            lines_bib[i-1] = lines_bib[i-1][:-1]
+            lines_bib.insert(i, "}")
+
     # remove leading and trailing whitespace
     lines_bib = [x.strip() for x in lines_bib]
 
