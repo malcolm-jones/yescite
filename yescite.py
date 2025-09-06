@@ -158,6 +158,8 @@ def bib_to_df(lines_bib):
     lines_bib = new
     # remove leading and trailing whitespace
     lines_bib = [x.strip() for x in lines_bib]
+
+    # add entry type and reformat label like it's a field
     new = []
     for n in range(len(lines_bib)):
         line = lines_bib[n]
