@@ -189,6 +189,7 @@ def bib_to_df(lines_bib):
     return df
 
 ### Development
+# path_bib = "example/example.bib"
 # with open(path_bib, 'r', encoding='utf-8') as f:
 #     lines_bib = f.readlines()
 # lines_bib = [x.removesuffix("\n") for x in lines_bib]
