@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="author" content="Malcolm Jones" />
+	<meta name="description" content="This site provides tools for managing and exploring your .bib files." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="robots" content="unavailable_after: 2025-12-31">
+  <meta name= "robots" content="index, follow"/>
+
+  <meta property="og:url" content="https://malcolmjones.pythonanywhere.com/"/>
+	<meta property="og:site_name" content="YesCite"/>
+	<meta property="og:description" content="This site provides tools for managing and exploring your .bib files."/>
+	<meta property="og:type" content="website"/>
+	<meta property="og:locale" content="en"/>
+	<meta property="og:title" content="YesCite"/>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+
+  <script src="main.js" type="module"></script>
+
+	<title>YesCite</title>
+
+  <style>
+    /* Specific to this website. */
+    .inline-block {
+      display: inline-block;
+    }
+    .inline-block p{
+      float: left;
+    }
+    #badge {
+      border-left:10px solid transparent;
+    }
+    textarea {
+      width: 100%;
+      resize: none;
+      background: transparent;
+      border: 1px solid var(--color-primary);
+      color: var(--color-primary);
+      padding: 10px;
+      resize: none;
+      outline: none;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    input[type="submit"] {
+      background: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      color: var(--color-secondary);
+      padding: 10px;
+      cursor: pointer;
+      transition: 0.1s ease-in-out;
+    }
+    input[type="submit"]:hover {
+      background: var(--color-secondary);
+      color: var(--color-primary)
+    }
+    button[type="submit"] {
+      background: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      color: var(--color-secondary);
+      padding: 10px;
+      cursor: pointer;
+      transition: 0.1s ease-in-out;
+    }
+    button[type="submit"]:hover {
+      background: var(--color-secondary);
+      color: var(--color-primary)
+    }
+    .parent {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+  
+</head>
+<body>
+
+  <div class="header">YesCite &mdash; tidying/exploring your .bib</div>
+
+  <button type="button" class="dark" id="darkModeToggle" style="display: block; margin-bottom: 10px;">
+		Dark Mode
+	</button>
+
+  <div class="main">
+
+    <p>Sorry, something's not working! I've been notified, and I'll try to fix this as soon as possible. Feel free to raise an issue on <a href="https://github.com/malcolm-jones/yescite" rel="noopener" target="_blank">GitHub</a>.</p>
+
+  </div>
+    
+	<div id="footer">
+		<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://malcolmjones.me">This website</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://malcolmjones.me">Malcolm Jones</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
+	</div>	
+
+  <script>
+		const toggleButton = document.getElementById("darkModeToggle");
+
+		// Default to dark mode unless localStorage says otherwise
+		document.addEventListener("DOMContentLoaded", () => {
+		if (localStorage.getItem("darkMode") !== "disabled") {
+			document.body.classList.add("dark-mode");
+			toggleButton.textContent = "Light Mode";
+		}
+		});
+
+		toggleButton.addEventListener("click", () => {
+		document.body.classList.toggle("dark-mode");
+
+		if (document.body.classList.contains("dark-mode")) {
+			toggleButton.textContent = "Light Mode";
+			localStorage.setItem("darkMode", "enabled");
+		} else {
+			toggleButton.textContent = "Dark Mode";
+			localStorage.setItem("darkMode", "disabled");
+		}
+		});
+	</script>
+
+</body>
+</html>

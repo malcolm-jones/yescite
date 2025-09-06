@@ -57,5 +57,13 @@ def download_csv():
         headers={"Content-Disposition": "attachment;filename=bib.csv"}
     )
 
+@app.route("/crash")
+def crash():
+    1 / 0
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    return render_template("500.html"), 500
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
