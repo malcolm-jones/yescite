@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
 from flask import Flask, request, render_template, Response
 from yescite import YesCite, bib_to_df
 import io
@@ -8,7 +9,8 @@ import io
 load_dotenv()
 
 sentry_sdk.init(
-    dsn=os.environ.get("GLITCHTIP_DSN")
+    dsn=os.environ.get("GLITCHTIP_DSN"),
+    integrations=[FlaskIntegration()]
 )
 
 app = Flask(__name__)
