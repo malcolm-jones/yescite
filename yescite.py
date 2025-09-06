@@ -151,7 +151,7 @@ def bib_to_df(lines_bib):
             reftype = line.split("@")[1].split("{")[0].replace(' ', '')
             new.append("type = {" + reftype + "}")
             # reformat citation label
-            label = line.split("{")[1][:-1]
+            label = line.split("{")[1][:-1].strip()
             new.append("label = {" + label + "}")
         else:
             new.append(line)
