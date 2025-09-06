@@ -143,6 +143,21 @@ def bib_to_df(lines_bib):
     lines_bib = [x for x in lines_bib if x[0] != "%"]
     # remove ending commas
     lines_bib = [x[:-1] if x[-2:] in ["},","\","] else x for x in lines_bib]
+    # make sure closing brackets of all entries are on their own line 
+    new = []
+    for n in range(len(lines_bib)):
+        line = lines_bib[n]
+        if line.count("}") > line.count("{"):
+            if not line.startswith("}"):
+                new.append(line[:-1])
+                new.append("}")
+            else:
+                new.append(line)
+        else:
+            new.append(line)
+    lines_bib = new
+    # remove leading and trailing whitespace
+    lines_bib = [x.strip() for x in lines_bib]
     new = []
     for n in range(len(lines_bib)):
         line = lines_bib[n]
