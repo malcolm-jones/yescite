@@ -142,8 +142,7 @@ def bib_to_df(lines_bib):
     # remove comments
     lines_bib = [x for x in lines_bib if x[0] != "%"]
     # remove ending commas
-    lines_bib = [x[:-1] if x[-2:] == "}," else x for x in lines_bib] 
-    
+    lines_bib = [x[:-1] if x[-2:] in ["},","\","] else x for x in lines_bib]
     new = []
     for n in range(len(lines_bib)):
         line = lines_bib[n]
