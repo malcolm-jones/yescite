@@ -196,7 +196,11 @@ def bib_to_df(lines_bib):
             x = items[m][n].split("=", 1)
             y = x[0].lstrip().rstrip().lower()
             data = x[1].lstrip().rstrip()
-            items[m][n] = [y, data[1:-1]]
+            if data.startswith("{") and data.endswith("}"):
+                data = data[1:-1]
+            elif data.startswith("\"") and data.endswith("\""):
+                data = data[1:-1]
+            items[m][n] = [y, data]
     dicts = [dict(entry) for entry in items]
     df = pd.DataFrame(dicts)
 
