@@ -61,8 +61,8 @@ def download_csv():
 def crash():
     1 / 0
 
-@app.errorhandler(Exception)
-def handle_exception(e):
+@app.errorhandler(500)
+def internal_error(e):
     return render_template("500.html"), 500
 
 if __name__ == '__main__':
