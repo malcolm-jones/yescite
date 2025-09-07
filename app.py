@@ -3,8 +3,10 @@ from dotenv import load_dotenv
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 from flask import Flask, request, render_template, Response
-from yescite import YesCite, bib_to_df
+import flask_monitoringdashboard as dashboard
 import io
+
+from yescite import YesCite, bib_to_df
 
 load_dotenv()
 
@@ -64,6 +66,8 @@ def crash():
 @app.errorhandler(500)
 def internal_error(e):
     return render_template("500.html"), 500
+
+dashboard.bind(app)
 
 if __name__ == '__main__':
     app.run(debug=False)
