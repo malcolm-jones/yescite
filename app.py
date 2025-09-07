@@ -67,7 +67,7 @@ def crash():
 def internal_error(e):
     return render_template("500.html"), 500
 
-dashboard.config.init_from(envvar='FLASK_MONITORING_DASHBOARD_CONFIG')
+dashboard.config.init_from(file=os.environ.get("FLASK_MONITORING_DASHBOARD_CONFIG"))
 dashboard.bind(app)
 
 if __name__ == '__main__':
