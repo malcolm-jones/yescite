@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+import pandas as pd
 import pytz
 
 load_dotenv()
@@ -20,3 +21,8 @@ def add_log(message):
             file.writelines([','.join(data) + "\n"])
     except:
         print("Something went wrong adding a log to usage database.")
+
+def summarise():
+    df = pd.read_csv(fname, names=['time_zone', 'time', 'date', 'message'])
+    counts = df.groupby('date')['message'].value_counts().unstack(fill_value=0)
+    print(counts)
