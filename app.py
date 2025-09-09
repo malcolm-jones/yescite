@@ -12,7 +12,8 @@ load_dotenv()
 
 sentry_sdk.init(
     dsn=os.environ.get("GLITCHTIP_DSN"),
-    integrations=[FlaskIntegration()]
+    integrations=[FlaskIntegration()],
+    traces_sample_rate=1.0,
 )
 
 app = Flask(__name__)
