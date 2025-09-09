@@ -5,8 +5,8 @@ import pandas as pd
 import pytz
 
 load_dotenv()
-fname = os.environ.get("USAGE_DATABASE")
-tz = os.environ.get("TIME_ZONE")
+fname = os.getenv("USAGE_DATABASE")
+tz = os.getenv("TIME_ZONE")
 
 def add_log(message):
     current_time = datetime.now(pytz.timezone(tz))

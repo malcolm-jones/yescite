@@ -11,7 +11,7 @@ import usage
 load_dotenv()
 
 sentry_sdk.init(
-    dsn=os.environ.get("GLITCHTIP_DSN"),
+    dsn=os.getenv("GLITCHTIP_DSN"),
     integrations=[FlaskIntegration()],
     traces_sample_rate=1.0,
 )
