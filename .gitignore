@@ -4,3 +4,4 @@ __pycache__
 .env
 flask_monitoringdashboard.db
 config.cfg
+*.csv

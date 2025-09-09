@@ -6,6 +6,7 @@ from flask import Flask, request, render_template, Response
 import io
 
 from yescite import YesCite, bib_to_df
+import usage
 
 load_dotenv()
 
@@ -19,6 +20,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
+    usage.add_log("Index")
 
     input_bbl = ''
     input_bib = ''
@@ -27,6 +29,7 @@ def index():
     output_aliases_unused = ''
 
     if request.method == 'POST':    
+        usage.add_log("YesCite")
         input_bbl = request.form.get('input_bbl')
         input_bib = request.form.get('input_bib')
         lines_bbl = input_bbl.splitlines()
@@ -47,6 +50,7 @@ def index():
 
 @app.route('/download_csv', methods=['POST'])
 def download_csv():
+    usage.add_log("bib2csv")
     input_bib = request.form.get('input_bib', '')
     lines_bib = input_bib.splitlines()
     df = bib_to_df(lines_bib)
