@@ -206,6 +206,9 @@ def bib_to_df(lines_bib):
 
     return df
 
+def utf8len(s):
+    return len(s.encode('utf-8'))
+
 ### Development
 # path_bib = "example/example.bib"
 # with open(path_bib, 'r', encoding='utf-8') as f:

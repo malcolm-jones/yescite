@@ -99,6 +99,12 @@
 
     <h2 id="yescite">YesCite</h2>
 
+    <p id="message-yescite">
+        <i>
+          {{ message_yescite }}
+        </i>
+    </p>
+
     <p>This tool tidies your .bib file by removing any unused entries in your project.</p>
 
     <p><b>Requires</b>: The auxiliary .bbl file for your LaTeX project.</p>
@@ -115,6 +121,12 @@
 
     <h2 id="bibtocsv">Convert your .bib to a .csv</h2>
 
+    <p id="message-bibtocsv">
+        <i>
+          {{ message_bibtocsv }}
+        </i>
+    </p>
+
     <p>
       Paste your .bib below, and click the button to download it as a csv. This is only a first attempt, so there are teething issues. Please <a href="https://malcolmjones.me" rel="noopener" target="_blank">email</a> me or raise an issue on <a href="https://github.com/malcolm-jones/yescite" rel="noopener" target="_blank">GitHub</a> if you would like to see improvements.
     </p>
@@ -122,7 +134,8 @@
       <textarea placeholder="Paste .bib here..." name="input_bib_to_csv" rows="8">{{ input_bib_to_csv }}</textarea><br><br>
       <button type="submit">Download .csv</button>
     </form>
-    
+    <p>{{ output_bib_to_csv }}</p>
+
     <div class="parent">
       <div class="inline-block">
         <p id="badge">
@@ -163,6 +176,14 @@
 		}
 		});
 	</script>
+
+  {% if scrollToAnchor %}
+  <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          document.location.hash = '#{{ scrollToAnchor }}';
+      });
+  </script>
+  {% endif %}
 
 </body>
 </html>
