@@ -23,7 +23,7 @@ def index():
     usage.add_log("Index")
 
     input_bbl = ''
-    input_bib = ''
+    input_bib_YesCite = ''
     output_yescite = ''
     output_aliases_used = ''
     output_aliases_unused = ''
@@ -31,9 +31,9 @@ def index():
     if request.method == 'POST':    
         usage.add_log("YesCite")
         input_bbl = request.form.get('input_bbl')
-        input_bib = request.form.get('input_bib')
+        input_bib_YesCite = request.form.get('input_bib_YesCite')
         lines_bbl = input_bbl.splitlines()
-        lines_bib = input_bib.splitlines()
+        lines_bib = input_bib_YesCite.splitlines()
         yc = YesCite(lines_bbl, lines_bib)
         output_yescite = '\n'.join(yc.yescite)
         output_aliases_used = yc.aliases_used
@@ -42,7 +42,7 @@ def index():
     return render_template(
         'index.html', 
         input_bbl=input_bbl, 
-        input_bib=input_bib, 
+        input_bib_YesCite=input_bib_YesCite, 
         output_yescite=output_yescite,
         output_aliases_used=output_aliases_used,
         output_aliases_unused=output_aliases_unused,
@@ -51,8 +51,8 @@ def index():
 @app.route('/download_csv', methods=['POST'])
 def download_csv():
     usage.add_log("bib2csv")
-    input_bib = request.form.get('input_bib', '')
-    lines_bib = input_bib.splitlines()
+    input_bib_to_csv = request.form.get('input_bib_to_csv', '')
+    lines_bib = input_bib_to_csv.splitlines()
     df = bib_to_df(lines_bib)
     csv_buffer = io.StringIO()
     df.to_csv(csv_buffer, index=False)
