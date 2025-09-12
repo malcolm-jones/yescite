@@ -5,7 +5,8 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from flask import Flask, request, render_template, Response
 import io
 
-from yescite import YesCite, bib_to_df, utf8len
+from yescite import YesCite, bib_to_df
+from validation import valid_yescite, valid_bibtocsv
 import usage
 
 load_dotenv()
@@ -28,16 +29,13 @@ def index():
     output_aliases_used = ''
     output_aliases_unused = ''
 
-    N = int(os.getenv("INPUT_LIMIT"))
-
     if request.method == 'POST':    
         endpoint_code = "YesCite"
         usage.add_log(endpoint_code)
         input_bbl = request.form.get('input_bbl')
         input_bib_YesCite = request.form.get('input_bib_YesCite')
         if (
-            utf8len(input_bbl) > N
-            or utf8len(input_bib_YesCite) > N
+            not valid_yescite(input_bbl, input_bib_YesCite)
         ):
             usage.add_log(": ".join([
                 endpoint_code, 
@@ -45,7 +43,7 @@ def index():
             ]))
             return render_template(
                 'index.html',  
-                message_yescite=os.getenv("BIG_INPUT_MESSAGE"),
+                message_yescite=os.getenv("VALIDATION_MESSAGE"),
                 scrollToAnchor='message-yescite',
             )
         lines_bbl = input_bbl.splitlines()
@@ -70,7 +68,7 @@ def download_csv():
     usage.add_log(endpoint_code)
     input_bib_to_csv = request.form.get('input_bib_to_csv', '')
     if (
-        utf8len(input_bib_to_csv) > int(os.getenv("INPUT_LIMIT"))
+        not valid_bibtocsv(input_bib_to_csv)
     ):
         usage.add_log(": ".join([
             endpoint_code,
@@ -79,7 +77,7 @@ def download_csv():
         return render_template(
             'index.html', 
             input_bib_to_csv=input_bib_to_csv, 
-            message_bibtocsv=os.getenv("BIG_INPUT_MESSAGE"),
+            message_bibtocsv=os.getenv("VALIDATION_MESSAGE"),
             scrollToAnchor='message-bibtocsv',
         )
     else:
