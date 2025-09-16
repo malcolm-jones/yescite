@@ -12,8 +12,10 @@ def some_line_starts_with(lines, symbol):
 # Validation for each input
 
 def valid_bbl(input_bbl):
+    lines_bbl = input_bbl.splitlines()
     return (
         utf8len(input_bbl) < int(os.getenv("INPUT_LIMIT"))
+        and some_line_starts_with(lines_bbl, "\entry")
     )
 
 def valid_bib(input_bib):
