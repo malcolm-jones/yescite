@@ -137,9 +137,35 @@ def bib_to_df(lines_bib):
 
     return df
 
-### Development
+def extract_entry(df, n):
+    entry_type = df.iloc[n]["type"]
+    entry_label = df.iloc[n]["label"]
+    fields = list(df.columns)
+    fields.remove("type")
+    fields.remove("label")
+    s = df.iloc[n][fields].dropna()
+    l = [s.index[i] + " = {" + s.values[i] + "}" for i in range(len(s))]
+    entry = "@" + entry_type + "{" + entry_label + ",\n" + ",\n".join(l) + "\n}"
+    return entry
+
+def extract_entries(df, entry_indices = None):
+    if isinstance(entry_indices, list):
+        entries = []
+        for n in entry_indices:
+            entries.append(extract_entry(df, n))
+    else:
+        entries = []
+        for n in range(df.shape[0]):
+            entries.append(extract_entry(df, n))
+    return "\n\n".join(entries)
+
+# ## Development
 # path_bib = "example/example.bib"
 # with open(path_bib, 'r', encoding='utf-8') as f:
 #     lines_bib = f.readlines()
 # lines_bib = [x.removesuffix("\n") for x in lines_bib]
 # x = lines_bib[5]
+# df = bib_to_df(lines_bib)
+# with open("test.txt", 'a') as file:
+#     file.writelines(extract_entries(df))
+#     file.writelines("\n")
