@@ -102,6 +102,30 @@ def bib_to_df(lines_bib):
             new.append(line)
     lines_bib = new
 
+    # collapse field entries where bookends are on separate lines
+    reading = True
+    n = 0
+    while reading:
+        line = lines_bib[n]
+        if line.endswith("{"):
+            lines_bib[n] = line + lines_bib[n+1]
+            del lines_bib[n+1]
+        n += 1
+        reading = n in range(len(lines_bib))
+    reading = True
+    n = 0
+    while reading:
+        if (
+            lines_bib[n] == "}"
+            and n + 1 in range(len(lines_bib)) 
+            and not lines_bib[n+1].startswith("type = {")
+        ):
+            lines_bib[n-1] = lines_bib[n-1] + lines_bib[n]
+            del lines_bib[n]
+        else:
+            n += 1
+        reading = n in range(len(lines_bib))
+    
     # separate into lists of lists
     items = [
         list(group) 
@@ -137,9 +161,76 @@ def bib_to_df(lines_bib):
 
     return df
 
-### Development
+def extract_entry(df, n):
+    formatting = {
+        "space_after_entry_type": True,
+        "spaces_surrounding_equals": True,
+        "lower_or_upper": "lower",
+        "align": "equals",
+        "bookends": "braces",
+    }
+    entry_type = df.iloc[n]["type"]
+    entry_label = df.iloc[n]["label"]
+    fields = list(df.columns)
+    fields.remove("type")
+    fields.remove("label")
+    s = df.iloc[n][fields].dropna()
+    if formatting["lower_or_upper"] == "upper":
+        entry_type = entry_type.upper()
+        fields = [x.upper() for x in fields]
+    elif formatting["lower_or_upper"] == "lower":
+        entry_type = entry_type.lower()
+        fields = [x.lower() for x in fields]
+    if formatting["align"] == "tab":
+        padding = [4]*len(fields)
+    elif formatting["align"] == "left":
+        padding = [0]*len(fields)
+    elif formatting["align"] == "equals":
+        max_field_length = max([len(x) for x in fields])
+        padding = [max_field_length - len(x) for x in fields]
+    padding_dict = dict(zip(fields, padding))
+    if formatting["bookends"] == "quotes":
+        bookend_left = "\""
+        bookend_right = "\""
+    elif formatting["bookends"] == "braces":
+        bookend_left = "{"
+        bookend_right = "}"
+    l = []
+    for i in range(len(s)):
+        x = ''.join([
+            padding_dict[fields[i]]*" ",
+            fields[i],
+            int(formatting["spaces_surrounding_equals"])*" ",
+            "=",
+            int(formatting["spaces_surrounding_equals"])*" ",
+            bookend_left,
+            s.values[i],
+            bookend_right,
+        ])
+        l.append(x)
+    entry = ''.join([
+        "@",entry_type,
+        int(formatting["space_after_entry_type"])*" ",
+        "{",
+        entry_label,
+        ",\n",
+        ",\n".join(l),
+        "\n}",
+    ])
+    return entry
+
+def extract_entries(df):
+    N = df.shape[0]
+    entries = [extract_entry(df, n) for n in range(N)]
+    return "\n\n".join(entries)
+
+# ## Development
 # path_bib = "example/example.bib"
 # with open(path_bib, 'r', encoding='utf-8') as f:
 #     lines_bib = f.readlines()
 # lines_bib = [x.removesuffix("\n") for x in lines_bib]
 # x = lines_bib[5]
+# df = bib_to_df(lines_bib)
+# with open("test.txt", 'a') as file:
+#     file.writelines(extract_entries(df))
+#     file.writelines("\n")

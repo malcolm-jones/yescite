@@ -5,3 +5,4 @@ __pycache__
 flask_monitoringdashboard.db
 config.cfg
 *.csv
+test.txt

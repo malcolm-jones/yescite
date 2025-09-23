@@ -94,6 +94,7 @@
       <ul id="nav">
         <li><a href="#yescite">YesCite</a></li>
         <li><a href="#bibtocsv">Convert .bib to .csv</a></li>
+        <li><a href="#bibformat">Format .bib</a></li>
       </ul>
     </div>
 
@@ -131,6 +132,21 @@
       <button type="submit">Download .csv</button>
     </form>
     <p>{{ output_bib_to_csv }}</p>
+
+    <h2 id="bibformat">Format .bib</h2>
+
+    <p id="message-bibformat">
+        <i>
+          {{ message_bibformat }}
+        </i>
+    </p>
+
+    <p>Paste your .bib below to give all the entries the same formatting. The next version of this tool will allow you to choose various formatting options for yourself.</p>
+    <form action="/bibformat" method="post">
+      <textarea placeholder="Paste .bib here..." name="input_bibformat" rows="8">{{ input_bibformat }}</textarea><br><br>
+      <button type="submit">Format .bib</button>
+    </form><br>
+    <textarea placeholder="Formatted .bib will appear here." id="output_bibformat" rows="8">{{ output_bibformat }}</textarea><br>
 
     <div class="parent">
       <div class="inline-block">

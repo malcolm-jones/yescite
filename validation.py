@@ -38,6 +38,11 @@ def valid_bibtocsv(input_bib):
         valid_bib(input_bib)
     )
 
+def valid_bibformat(input_bib):
+    return (
+        valid_bib(input_bib)
+    )
+
 ### DEVELOPMENT
 
 # from yescite import paths_to_lines

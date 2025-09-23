@@ -5,8 +5,8 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from flask import Flask, request, render_template, Response
 import io
 
-from yescite import YesCite, bib_to_df
-from validation import valid_yescite, valid_bibtocsv
+from yescite import YesCite, bib_to_df, extract_entries
+from validation import valid_yescite, valid_bibtocsv, valid_bibformat
 import usage
 
 load_dotenv()
@@ -90,6 +90,35 @@ def download_csv():
             csv_buffer,
             mimetype='text/csv',
             headers={"Content-Disposition": "attachment;filename=bib.csv"}
+        )
+
+@app.route('/bibformat', methods=['POST'])
+def bibformat():
+    endpoint_code = "bibformat"
+    usage.add_log(endpoint_code)
+    input_bibformat = request.form.get('input_bibformat', '')
+    if (
+        not valid_bibformat(input_bibformat)
+    ):
+        usage.add_log(": ".join([
+            endpoint_code,
+            "Input failed validation.",
+        ]))
+        return render_template(
+            'index.html', 
+            input_bibformat=input_bibformat, 
+            message_bibformat=os.getenv("VALIDATION_MESSAGE"),
+            scrollToAnchor='message-bibformat',
+        )
+    else:
+        lines_bib = input_bibformat.splitlines()
+        df = bib_to_df(lines_bib)
+        output_bibformat = extract_entries(df)
+        return render_template(
+            'index.html', 
+            input_bibformat=input_bibformat, 
+            output_bibformat=output_bibformat,
+            scrollToAnchor='output_bibformat',
         )
 
 @app.route("/crash")
