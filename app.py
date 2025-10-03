@@ -5,8 +5,8 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from flask import Flask, request, render_template, Response
 import io
 
-from yescite import YesCite, bib_to_df, extract_entries
-from validation import valid_yescite, valid_bibtocsv, valid_bibformat
+from yescite import YesCite, bib_to_df, extract_entries, add_arXiv_versions
+from validation import valid_yescite, valid_bibtocsv, valid_bibformat, valid_arxivversions
 import usage
 
 load_dotenv()
@@ -119,6 +119,41 @@ def bibformat():
             input_bibformat=input_bibformat, 
             output_bibformat=output_bibformat,
             scrollToAnchor='output_bibformat',
+        )
+
+@app.route('/arxivversions', methods=['POST'])
+def arxivversions():
+    endpoint_code = "arxivversions"
+    usage.add_log(endpoint_code)
+    input_arxivversions = request.form.get('input_arxivversions', '')
+    if (
+        not valid_arxivversions(input_arxivversions)
+    ):
+        usage.add_log(": ".join([
+            endpoint_code,
+            "Input failed validation.",
+        ]))
+        return render_template(
+            'index.html', 
+            input_arxivversions=input_arxivversions, 
+            message_arxivversions=os.getenv("VALIDATION_MESSAGE"),
+            scrollToAnchor='message-arxivversions',
+        )
+    else:
+        lines_bib = input_arxivversions.splitlines()
+        df = bib_to_df(lines_bib)
+        df, num_unique_matches = add_arXiv_versions(df)
+        usage.add_log(": ".join([
+            endpoint_code,
+            f"{num_unique_matches} out of {len(df)} entries had unique " 
+            "matches on arXiv.",
+        ]))
+        output_arxivversions = extract_entries(df)
+        return render_template(
+            'index.html', 
+            input_arxivversions=input_arxivversions, 
+            output_arxivversions=output_arxivversions,
+            scrollToAnchor='output_arxivversions',
         )
 
 @app.route("/crash")
