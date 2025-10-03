@@ -12,7 +12,7 @@ def query_title(title):
     segments = []
     new_segment = []
     for n in range(len(l)):
-        if len(re.split('[^a-zA-Z-–]', l[n])) == 1:
+        if len(re.split('[^a-zA-Zà-üÀ-Ü-–]', l[n])) == 1:
             new_segment.append(l[n])
         else:
             segments.append(new_segment)
