@@ -9,7 +9,7 @@ def query_title(title):
     segments = []
     new_segment = []
     for n in range(len(l)):
-        if len(re.split('[^a-zA-Z]', l[n])) == 1:
+        if len(re.split('[^a-zA-Z-]', l[n])) == 1:
             new_segment.append(l[n])
         else:
             segments.append(new_segment)
@@ -17,6 +17,7 @@ def query_title(title):
     segments.append(new_segment)
     segments = [" ".join(segment) for segment in segments]
     max_segment = max(segments, key=len)
+    max_segment = max_segment.replace("-", " ")
 
     # Query arXiv API
     clue = urllib.parse.quote(f'"{max_segment}"')
@@ -27,7 +28,7 @@ def query_title(title):
     d = feedparser.parse(url)
     print(f"Title matched with {len(d.entries)} entries.")
 
-    return d
+    return d, max_segment
 
 # ## Development
 # title = "Ideals of {S}teinberg algebras of strongly effective groupoids, with applications to {L}eavitt path algebras"
