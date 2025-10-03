@@ -2,6 +2,8 @@ import os
 from itertools import groupby
 import pandas as pd
 
+from arXiv import query_title
+
 def paths_to_lines(bbl_path, bib_path):
     with open(bbl_path, 'r', encoding='utf-8') as f:
         bbl_lines = f.readlines()
@@ -223,6 +225,31 @@ def extract_entries(df):
     N = df.shape[0]
     entries = [extract_entry(df, n) for n in range(N)]
     return "\n\n".join(entries)
+
+def add_arXiv_versions(df):
+
+    arXivresults = []
+    for title in df.title:
+        d, max_segment = query_title(title)
+        arXivsearchterm = max_segment
+        arXivmatches = len(d.entries)
+        if arXivmatches == 1:
+            arXivversionurl = d.entries[0].id
+        else:
+            arXivversionurl = None
+        arXivresults.append({
+            "arXivsearchterm": arXivsearchterm,
+            "arXivmatches": arXivmatches,
+            "arXivversionurl": arXivversionurl,
+        })
+
+    df["arXivsearchterm"] = [x["arXivsearchterm"] for x in arXivresults]
+    df["arXivmatches"] = [x["arXivmatches"] for x in arXivresults]
+    df["arXivversionurl"] = [x["arXivversionurl"] for x in arXivresults]
+
+    num_unique_matches = sum([x==1 for x in df["arXivmatches"]])
+
+    return df, num_unique_matches
 
 # ## Development
 # path_bib = "example/example.bib"
