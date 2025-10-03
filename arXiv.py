@@ -14,6 +14,7 @@ def query_title(title):
         else:
             segments.append(new_segment)
             new_segment = []
+    segments.append(new_segment)
     segments = [" ".join(segment) for segment in segments]
     max_segment = max(segments, key=len)
 
