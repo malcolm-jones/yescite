@@ -25,3 +25,5 @@ GitHub: [https://github.com/malcolm-jones/yescite](https://github.com/malcolm-jo
 * [BibTeX](https://www.bibtex.org/Using/) (for automatically producing the `.bbl` without which this project would be pointless)
 * Othneil Drew's [README template](https://github.com/othneildrew/Best-README-Template/tree/master)
 * [Glitchtip](https://gitlab.com/glitchtip) (for tracking errors)
+* [arXiv](https://info.arxiv.org/help/api/) (for use of its open access interoperability)
+* [feedparser](https://github.com/kurtmckee/feedparser) (for parsing responses from arXiv)

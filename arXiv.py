@@ -26,7 +26,6 @@ def query_title(title):
         f"search_query=ti:{clue}&sortBy=lastUpdatedDate&sortOrder=ascending",
     ])
     d = feedparser.parse(url)
-    print(f"Title matched with {len(d.entries)} entries.")
 
     return d, max_segment
 
