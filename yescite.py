@@ -206,7 +206,7 @@ def extract_entry(df, n):
             "=",
             int(formatting["spaces_surrounding_equals"])*" ",
             bookend_left,
-            s.values[i],
+            str(s.values[i]),
             bookend_right,
         ])
         l.append(x)
