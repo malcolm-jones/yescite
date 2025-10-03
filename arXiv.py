@@ -4,6 +4,19 @@ import re
 
 def query_title(title):
 
+    # Groom title
+    replacements = [
+        ["\c{c}", "ç"],
+        ["{\c{c}}", "ç"],
+        ["\'e", "é"],
+        ["{\'e}", "é"],
+        ["’", "'"],
+        ["{", ""],
+        ["}", ""],
+    ]
+    for replacement in replacements:
+        title = title.replace(replacement[0], replacement[1])
+
     # Longest sequence of complete words in title without special characters
     l = title.split(" ")
     for n in range(len(l)):
