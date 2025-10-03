@@ -18,6 +18,7 @@ def query_title(title):
     segments = [" ".join(segment) for segment in segments]
     max_segment = max(segments, key=len)
     max_segment = max_segment.replace("-", " ")
+    max_segment = max_segment.replace("–", " ")
 
     # Query arXiv API
     clue = urllib.parse.quote(f'"{max_segment}"')
