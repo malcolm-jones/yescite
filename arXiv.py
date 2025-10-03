@@ -7,7 +7,7 @@ def query_title(title):
     # Longest sequence of complete words in title without special characters
     l = title.split(" ")
     for n in range(len(l)):
-        if l[n].endswith(".") or l[n].endswith(","):
+        if l[n].endswith(".") or l[n].endswith(",") or l[n].endswith(":"):
             l[n] = l[n][:-1]
     segments = []
     new_segment = []
