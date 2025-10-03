@@ -27,3 +27,4 @@ GitHub: [https://github.com/malcolm-jones/yescite](https://github.com/malcolm-jo
 * [Glitchtip](https://gitlab.com/glitchtip) (for tracking errors)
 * [arXiv](https://info.arxiv.org/help/api/) (for use of its open access interoperability)
 * [feedparser](https://github.com/kurtmckee/feedparser) (for parsing responses from arXiv)
+* [tqdm](https://github.com/tqdm/tqdm) (for progress bars)

@@ -1,6 +1,7 @@
 import os
 from itertools import groupby
 import pandas as pd
+from tqdm import tqdm
 
 from arXiv import query_title
 
@@ -230,7 +231,7 @@ def extract_entries(df):
 def add_arXiv_versions(df):
 
     arXivresults = []
-    for title in df.title:
+    for title in tqdm(df.title):
         d, max_segment = query_title(title)
         arXivsearchterm = max_segment
         arXivmatches = len(d.entries)
