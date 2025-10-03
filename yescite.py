@@ -176,7 +176,7 @@ def extract_entry(df, n):
     fields = list(df.columns)
     fields.remove("type")
     fields.remove("label")
-    s = df.iloc[n][fields].dropna()
+    s = df.iloc[n][fields]
     if formatting["lower_or_upper"] == "upper":
         entry_type = entry_type.upper()
         fields = [x.upper() for x in fields]
@@ -199,17 +199,18 @@ def extract_entry(df, n):
         bookend_right = "}"
     l = []
     for i in range(len(s)):
-        x = ''.join([
-            padding_dict[fields[i]]*" ",
-            fields[i],
-            int(formatting["spaces_surrounding_equals"])*" ",
-            "=",
-            int(formatting["spaces_surrounding_equals"])*" ",
-            bookend_left,
-            str(s.values[i]),
-            bookend_right,
-        ])
-        l.append(x)
+        if str(s.values[i]) != "nan":
+            x = ''.join([
+                padding_dict[fields[i]]*" ",
+                fields[i],
+                int(formatting["spaces_surrounding_equals"])*" ",
+                "=",
+                int(formatting["spaces_surrounding_equals"])*" ",
+                bookend_left,
+                str(s.values[i]),
+                bookend_right,
+            ])
+            l.append(x)
     entry = ''.join([
         "@",entry_type,
         int(formatting["space_after_entry_type"])*" ",
