@@ -2,6 +2,8 @@ import os
 from itertools import groupby
 import pandas as pd
 
+from arXiv import query_title
+
 def paths_to_lines(bbl_path, bib_path):
     with open(bbl_path, 'r', encoding='utf-8') as f:
         bbl_lines = f.readlines()
@@ -174,7 +176,7 @@ def extract_entry(df, n):
     fields = list(df.columns)
     fields.remove("type")
     fields.remove("label")
-    s = df.iloc[n][fields].dropna()
+    s = df.iloc[n][fields]
     if formatting["lower_or_upper"] == "upper":
         entry_type = entry_type.upper()
         fields = [x.upper() for x in fields]
@@ -197,17 +199,18 @@ def extract_entry(df, n):
         bookend_right = "}"
     l = []
     for i in range(len(s)):
-        x = ''.join([
-            padding_dict[fields[i]]*" ",
-            fields[i],
-            int(formatting["spaces_surrounding_equals"])*" ",
-            "=",
-            int(formatting["spaces_surrounding_equals"])*" ",
-            bookend_left,
-            s.values[i],
-            bookend_right,
-        ])
-        l.append(x)
+        if str(s.values[i]) != "nan":
+            x = ''.join([
+                padding_dict[fields[i]]*" ",
+                fields[i],
+                int(formatting["spaces_surrounding_equals"])*" ",
+                "=",
+                int(formatting["spaces_surrounding_equals"])*" ",
+                bookend_left,
+                str(s.values[i]),
+                bookend_right,
+            ])
+            l.append(x)
     entry = ''.join([
         "@",entry_type,
         int(formatting["space_after_entry_type"])*" ",
@@ -223,6 +226,31 @@ def extract_entries(df):
     N = df.shape[0]
     entries = [extract_entry(df, n) for n in range(N)]
     return "\n\n".join(entries)
+
+def add_arXiv_versions(df):
+
+    arXivresults = []
+    for title in df.title:
+        d, max_segment = query_title(title)
+        arXivsearchterm = max_segment
+        arXivmatches = len(d.entries)
+        if arXivmatches == 1:
+            arXivversionurl = d.entries[0].id
+        else:
+            arXivversionurl = None
+        arXivresults.append({
+            "arXivsearchterm": arXivsearchterm,
+            "arXivmatches": arXivmatches,
+            "arXivversionurl": arXivversionurl,
+        })
+
+    df["arXivsearchterm"] = [x["arXivsearchterm"] for x in arXivresults]
+    df["arXivmatches"] = [x["arXivmatches"] for x in arXivresults]
+    df["arXivversionurl"] = [x["arXivversionurl"] for x in arXivresults]
+
+    num_unique_matches = sum([x==1 for x in df["arXivmatches"]])
+
+    return df, num_unique_matches
 
 # ## Development
 # path_bib = "example/example.bib"

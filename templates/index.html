@@ -95,6 +95,7 @@
         <li><a href="#yescite">YesCite</a></li>
         <li><a href="#bibtocsv">Convert .bib to .csv</a></li>
         <li><a href="#bibformat">Format .bib</a></li>
+        <li><a href="#arxivversions">Add arXiv versions to .bib</a></li>
       </ul>
     </div>
 
@@ -147,6 +148,23 @@
       <button type="submit">Format .bib</button>
     </form><br>
     <textarea placeholder="Formatted .bib will appear here." id="output_bibformat" rows="8">{{ output_bibformat }}</textarea><br>
+
+    <h2 id="arxivversions">Add arXiv versions to .bib</h2>
+
+    <p id="message-arxivversions">
+        <i>
+          {{ message_arxivversions }}
+        </i>
+    </p>
+
+    <p>Paste your .bib below to add links to arXiv versions if a unique match can be found. (Processing time may be approximately 3 entries per second.)</p>
+    <form action="/arxivversions" method="post">
+      <textarea placeholder="Paste .bib here..." name="input_arxivversions" rows="8">{{ input_arxivversions }}</textarea><br><br>
+      <button type="submit">Add arXiv versions to .bib</button>
+    </form><br>
+    <textarea placeholder=".bib with arXiv versions will appear here." id="output_arxivversions" rows="8">{{ output_arxivversions }}</textarea><br>
+    <p>Mistakes may occur. If the arXiv version for an entry is either incorrect or missing, please let me know. Thank you to arXiv for use of its open access interoperability.</p>
+    <p>One motivation for this tool is that some journals, including the <a href="https://nyjm.albany.edu/Instr.html">New York Journal of Mathematics</a>, include links to arXiv versions in their bibliography style.</p>
 
     <div class="parent">
       <div class="inline-block">
