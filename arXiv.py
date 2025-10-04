@@ -37,11 +37,8 @@ def query_title(title):
     max_segment = max_segment.replace("–", " ")
 
     # Query arXiv API
-    clue = urllib.parse.quote(f'"{max_segment}"')
-    url = ''.join([
-        "http://export.arxiv.org/api/query?",
-        f"search_query=ti:{clue}&sortBy=lastUpdatedDate&sortOrder=ascending",
-    ])
+    clue = urllib.parse.quote(f'"{search_term}"')
+    url = f"http://export.arxiv.org/api/query?search_query=ti:{clue}"
     d = feedparser.parse(url)
 
     return d, max_segment
