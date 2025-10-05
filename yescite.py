@@ -270,10 +270,10 @@ def query_title(title):
         ["{\c{c}}", "ç"],
         ["\'e", "é"],
         ["{\'e}", "é"],
-        ["’", "'"],
-        ["–", " "], # API does not like hyphens
+        ["\u2019", "'"],
+        ["\u2013", " "], # API does not like hyphens
         ["-", " "], # API does not like hyphens
-        ["‐", " "], # API does not like hyphens
+        ["\u2010", " "], # API does not like hyphens
     ]
     for replacement in replacements:
         title = title.replace(replacement[0], replacement[1])
