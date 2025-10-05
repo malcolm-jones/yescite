@@ -262,6 +262,14 @@ def path_to_df(path_bib="example/example.bib"):
     df = bib_to_df(lines_bib)
     return df
 
+def query_search_term(search_term):
+
+    clue = urllib.parse.quote(f'"{search_term}"')
+    url = f"http://export.arxiv.org/api/query?search_query=ti:{clue}"
+    d = feedparser.parse(url)
+
+    return d
+
 def query_title(title):
 
     # New strategy
@@ -284,10 +292,7 @@ def query_title(title):
     l = [regex.sub('', x) for x in l]
     search_term = " ".join(l)
 
-    # Query arXiv API
-    clue = urllib.parse.quote(f'"{search_term}"')
-    url = f"http://export.arxiv.org/api/query?search_query=ti:{clue}"
-    d = feedparser.parse(url)
+    d = query_search_term(search_term)
 
     return d, search_term
 
