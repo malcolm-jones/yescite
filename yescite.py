@@ -2,8 +2,9 @@ import os
 from itertools import groupby
 import pandas as pd
 from tqdm import tqdm
-
-from arXiv import query_title
+import feedparser
+import urllib.parse
+import re
 
 def paths_to_lines(bbl_path, bib_path):
     with open(bbl_path, 'r', encoding='utf-8') as f:
@@ -232,8 +233,8 @@ def add_arXiv_versions(df):
 
     arXivresults = []
     for title in tqdm(df.title):
-        d, max_segment = query_title(title)
-        arXivsearchterm = max_segment
+        d, search_term = query_title(title)
+        arXivsearchterm = search_term
         arXivmatches = len(d.entries)
         if arXivmatches == 1:
             arXivversionurl = d.entries[0].id
@@ -261,8 +262,73 @@ def path_to_df(path_bib="example/example.bib"):
     df = bib_to_df(lines_bib)
     return df
 
+def query_title(title):
+
+    # New strategy
+    replacements = [
+        ["\c{c}", "ç"],
+        ["{\c{c}}", "ç"],
+        ["\'e", "é"],
+        ["{\'e}", "é"],
+        ["’", "'"],
+        ["–", " "], # API does not like hyphens
+        ["-", " "], # API does not like hyphens
+    ]
+    for replacement in replacements:
+        title = title.replace(replacement[0], replacement[1])
+    l = title.split(" ")
+    regex = re.compile('[^0-9a-zA-Zà-üÀ-Ü/-]')
+    l = [regex.sub('', x) for x in l]
+    search_term = " ".join(l)
+
+    # # Groom title
+    # replacements = [
+    #     ["\c{c}", "ç"],
+    #     ["{\c{c}}", "ç"],
+    #     ["\'e", "é"],
+    #     ["{\'e}", "é"],
+    #     ["’", "'"],
+    #     ["{", ""],
+    #     ["}", ""],
+    # ]
+    # for replacement in replacements:
+    #     title = title.replace(replacement[0], replacement[1])
+    # # Longest sequence of complete words in title without special characters
+    # l = title.split(" ")
+    # for n in range(len(l)):
+    #     if l[n].endswith(".") or l[n].endswith(",") or l[n].endswith(":"):
+    #         l[n] = l[n][:-1]
+    # segments = []
+    # new_segment = []
+    # for n in range(len(l)):
+    #     if len(re.split('[^a-zA-Zà-üÀ-Ü-–]', l[n])) == 1:
+    #         new_segment.append(l[n])
+    #     else:
+    #         segments.append(new_segment)
+    #         new_segment = []
+    # segments.append(new_segment)
+    # segments = [" ".join(segment) for segment in segments]
+    # max_segment = max(segments, key=len)
+    # max_segment = max_segment.replace("-", " ")
+    # max_segment = max_segment.replace("–", " ")
+    # search_term = max_segment
+
+    # Query arXiv API
+    clue = urllib.parse.quote(f'"{search_term}"')
+    url = f"http://export.arxiv.org/api/query?search_query=ti:{clue}"
+    d = feedparser.parse(url)
+
+    return d, search_term
+
+
 # ## Development
 # df = path_to_df()
 # with open("test.txt", 'a') as file:
 #     file.writelines(extract_entries(df))
 #     file.writelines("\n")
+
+
+# d
+# d.feed.title
+# for n in range(len(d.entries)):
+#     print(d.entries[n].title)
