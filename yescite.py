@@ -253,13 +253,16 @@ def add_arXiv_versions(df):
 
     return df, num_unique_matches
 
+def path_to_df(path_bib="example/example.bib"):
+    with open(path_bib, 'r', encoding='utf-8') as f:
+        lines_bib = f.readlines()
+    lines_bib = [x.removesuffix("\n") for x in lines_bib]
+    x = lines_bib[5]
+    df = bib_to_df(lines_bib)
+    return df
+
 # ## Development
-# path_bib = "example/example.bib"
-# with open(path_bib, 'r', encoding='utf-8') as f:
-#     lines_bib = f.readlines()
-# lines_bib = [x.removesuffix("\n") for x in lines_bib]
-# x = lines_bib[5]
-# df = bib_to_df(lines_bib)
+# df = path_to_df()
 # with open("test.txt", 'a') as file:
 #     file.writelines(extract_entries(df))
 #     file.writelines("\n")
