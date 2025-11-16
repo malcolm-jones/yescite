@@ -6,3 +6,5 @@ flask_monitoringdashboard.db
 config.cfg
 *.csv
 test.txt
+example/example2.bib
+example/example3.bib

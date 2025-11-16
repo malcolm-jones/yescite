@@ -1,6 +1,10 @@
 import os
 from itertools import groupby
 import pandas as pd
+from tqdm import tqdm
+import feedparser
+import urllib.parse
+import re
 
 from arXiv import query_title
 
@@ -230,9 +234,9 @@ def extract_entries(df):
 def add_arXiv_versions(df):
 
     arXivresults = []
-    for title in df.title:
-        d, max_segment = query_title(title)
-        arXivsearchterm = max_segment
+    for title in tqdm(df.title):
+        d, search_term = query_title(title)
+        arXivsearchterm = search_term
         arXivmatches = len(d.entries)
         if arXivmatches == 1:
             arXivversionurl = d.entries[0].id
@@ -252,13 +256,57 @@ def add_arXiv_versions(df):
 
     return df, num_unique_matches
 
+def path_to_df(path_bib="example/example.bib"):
+    with open(path_bib, 'r', encoding='utf-8') as f:
+        lines_bib = f.readlines()
+    lines_bib = [x.removesuffix("\n") for x in lines_bib]
+    x = lines_bib[5]
+    df = bib_to_df(lines_bib)
+    return df
+
+def query_search_term(search_term):
+
+    clue = urllib.parse.quote(f'"{search_term}"')
+    url = f"http://export.arxiv.org/api/query?search_query=ti:{clue}"
+    d = feedparser.parse(url)
+
+    return d
+
+def query_title(title):
+
+    # New strategy
+    replacements = [
+        ["\c{c}", "ç"],
+        ["{\c{c}}", "ç"],
+        ["\'e", "é"],
+        ["{\'e}", "é"],
+        ["\u2019", "'"],
+        ["\u2013", " "], # API does not like hyphens
+        ["-", " "], # API does not like hyphens
+        ["\u2010", " "], # API does not like hyphens
+        ["—", " "], # API does not like hyphens
+        ["{\textemdash}", " "] # API does not like hyphens
+    ]
+    for replacement in replacements:
+        title = title.replace(replacement[0], replacement[1])
+    l = title.split(" ")
+    regex = re.compile('[^0-9a-zA-Zà-üÀ-Ü./-]')
+    l = [regex.sub('', x) for x in l]
+    search_term = " ".join(l)
+
+    d = query_search_term(search_term)
+
+    return d, search_term
+
+
 # ## Development
-# path_bib = "example/example.bib"
-# with open(path_bib, 'r', encoding='utf-8') as f:
-#     lines_bib = f.readlines()
-# lines_bib = [x.removesuffix("\n") for x in lines_bib]
-# x = lines_bib[5]
-# df = bib_to_df(lines_bib)
+# df = path_to_df()
 # with open("test.txt", 'a') as file:
 #     file.writelines(extract_entries(df))
 #     file.writelines("\n")
+
+
+# d
+# d.feed.title
+# for n in range(len(d.entries)):
+#     print(d.entries[n].title)
