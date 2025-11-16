@@ -175,7 +175,10 @@ def extract_entry(df, n):
         "lower_or_upper": "lower",
         "align": "equals",
         "bookends": "braces",
+        "replaceCstars": True,
     }
+    if replace_Cstars:
+        df["title"] = df["title"].map(replace_Cstars)
     entry_type = df.iloc[n]["type"]
     entry_label = df.iloc[n]["label"]
     fields = list(df.columns)
@@ -274,6 +277,32 @@ def query_search_term(search_term):
 
     return d
 
+def replace_Cstars(title):
+    alternates = [
+        "{C}*-algebra",
+        "C *-algebras",
+        "C$^*$-algebra",
+        "{$C^*$}-algebra",
+        "{$C\\sp*$}-algebra",
+        "{$\\rm C^*$}-algebra",
+        "{${\\rm C}^*$}-algebra",
+        "{$\\rm C^\\ast$}-algebra",
+        "$\\mathrm{C}^*$\\nobreakdash-algebra",
+        "C$^{\\textrm{{\\textbackslash}star}}$-algebra",
+        "{C}{\\textbackslash}sp{\\textbackslash}ast -algebra",
+        "C\\${\\textasciicircum}*\\$-algebra",
+        "C{\\textasciicircum}*-algebra",
+        "{C}{\\textasciicircum}*-algebra",
+        "{C}{\\textasciicircum}{\\textbackslash}ast -algebra",
+        "{C}{\\textasciicircum}{\\textbackslash}ast-algebra",
+        "{mathrmC}{\\textasciicircum}*-algebra",
+        "{C}\\${\\textasciicircum}*\\$-algebra",
+        "{\\textbackslash}{mathrmC}{\\textasciicircum}*{\\textbackslash}nobreakdash-algebra",
+    ]
+    for alternate in alternates:
+        title = title.replace(alternate, "C*-algebra")
+    return title
+
 def query_title(title):
 
     # New strategy
@@ -291,6 +320,7 @@ def query_title(title):
     ]
     for replacement in replacements:
         title = title.replace(replacement[0], replacement[1])
+    title = replace_Cstars(title)
     l = title.split(" ")
     regex = re.compile('[^0-9a-zA-Zà-üÀ-Ü./-]')
     l = [regex.sub('', x) for x in l]
