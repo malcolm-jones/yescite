@@ -5,6 +5,7 @@ from tqdm import tqdm
 import feedparser
 import urllib.parse
 import re
+import time
 
 from arXiv import query_title
 
@@ -247,6 +248,7 @@ def add_arXiv_versions(df):
             "arXivmatches": arXivmatches,
             "arXivversionurl": arXivversionurl,
         })
+        time.sleep(0.1)
 
     df["arXivsearchterm"] = [x["arXivsearchterm"] for x in arXivresults]
     df["arXivmatches"] = [x["arXivmatches"] for x in arXivresults]
