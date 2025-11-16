@@ -2,7 +2,6 @@ output/
 __pycache__
 .venv
 .env
-flask_monitoringdashboard.db
 config.cfg
 *.csv
 test.txt
