@@ -104,7 +104,7 @@
 
     <p>If you use biblatex (with the default backend&mdash;biber), then paste your .bbl and .bib files below to <b>remove any unused entries from the</b> .bib. You can find your .bbl in Overleaf by going to &#x0022;Logs and output files&#x0022; and then &#x0022;Other logs and files&#x0022;. You may need to recompile.</p>
     
-    <form method="post" id="yescite" enctype="multipart/form-data">
+    <form method="post" id="yescite">
       <textarea name="input_yescite_bbl" rows="8" placeholder="Paste .bbl here..."></textarea><br><br>
       <textarea name="input_yescite_bib" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
       <button type="submit">Remove unused entries</button><br><br>
@@ -137,7 +137,7 @@
 
     <p>Paste your .bib below to download it as a .csv.</p>
 
-    <form method="post" id="bibtocsv" enctype="multipart/form-data">
+    <form method="post" id="bibtocsv">
       <textarea name="input_bibtocsv" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
       <button type="submit">Download .csv</button><br><br>
     </form>
@@ -178,7 +178,7 @@
 
     <p>Paste your .bib below to give all the entries the same formatting.</p>
 
-    <form method="post" id="bibformat" enctype="multipart/form-data">
+    <form method="post" id="bibformat">
         <textarea name="input_bibformat" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
         <button type="submit">Format .bib</button><br><br>
     </form>
@@ -210,7 +210,7 @@
 
     <p>Paste your .bib below to add links to arXiv versions if a unique match can be found. (Processing time may be approximately 3 entries per second.)</p>
 
-    <form method="post" id="arxivversions" enctype="multipart/form-data">
+    <form method="post" id="arxivversions">
         <textarea name="input_arxivversions" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
         <button type="submit">Add arXiv versions</button><br><br>
     </form>
@@ -243,7 +243,7 @@
 
     <!-- <h2>AJAX Example</h2>
 
-    <form method="post" id="exampleAJAX" enctype="multipart/form-data">
+    <form method="post" id="exampleAJAX">
         <textarea name="exampleAJAX_input_1" rows="8" placeholder="You can have this input..."></textarea><br><br>
         <textarea name="exampleAJAX_input_2" rows="8" placeholder="... and this input too."></textarea><br><br>
         <button type="submit">AJAX Example</button><br><br>
