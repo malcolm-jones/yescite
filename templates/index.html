@@ -1,325 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="author" content="Malcolm Jones" />
-	<meta name="description" content="This site provides tools for managing and exploring your .bib files." />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta charset="UTF-8"/>
+	<meta name="author" content="Malcolm Jones"/>
+	<meta name="description" content="This site provides tools for managing and exploring your .bib files."/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta name="robots" content="unavailable_after: 2025-12-31">
-  <meta name= "robots" content="index, follow"/>
+	<meta name="robots" content="index, follow"/>
 
-  <meta property="og:url" content="https://malcolmjones.pythonanywhere.com/"/>
+	<meta property="og:url" content="https://malcolmjones.pythonanywhere.com/"/>
 	<meta property="og:site_name" content="YesCite"/>
 	<meta property="og:description" content="This site provides tools for exploring your .bib files."/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:locale" content="en"/>
 	<meta property="og:title" content="YesCite"/>
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
 
-  <script src="{{ url_for('static', filename='main.js') }}"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="{{ url_for('static', filename='main.js') }}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 	<title>YesCite</title>
 
-  <style>
-    /* Specific to this website. */
-    .inline-block {
-      display: inline-block;
-    }
-    .inline-block p{
-      float: left;
-    }
-    #badge {
-      border-left:10px solid transparent;
-    }
-    textarea {
-      width: 100%;
-      resize: none;
-      background: transparent;
-      border: 1px solid var(--color-primary);
-      color: var(--color-primary);
-      padding: 10px;
-      resize: none;
-      outline: none;
-      font-family: 'Courier New', Courier, monospace;
-    }
-    input[type="submit"] {
-      background: var(--color-primary);
-      border: 1px solid var(--color-primary);
-      color: var(--color-secondary);
-      padding: 10px;
-      cursor: pointer;
-      transition: 0.1s ease-in-out;
-    }
-    input[type="submit"]:hover {
-      background: var(--color-secondary);
-      color: var(--color-primary)
-    }
-    button[type="submit"] {
-      background: var(--color-primary);
-      border: 1px solid var(--color-primary);
-      color: var(--color-secondary);
-      padding: 10px;
-      cursor: pointer;
-      transition: 0.1s ease-in-out;
-    }
-    button[type="submit"]:hover {
-      background: var(--color-secondary);
-      color: var(--color-primary)
-    }
-    .parent {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  </style>
-  
+	<style>
+		/* Specific to this website. */
+		.inline-block {
+			display: inline-block;
+		}
+		.inline-block p{
+			float: left;
+		}
+		#badge {
+			border-left:10px solid transparent;
+		}
+		textarea {
+			width: 100%;
+			resize: none;
+			background: transparent;
+			border: 1px solid var(--color-primary);
+			color: var(--color-primary);
+			padding: 10px;
+			resize: none;
+			outline: none;
+			font-family: 'Courier New', Courier, monospace;
+		}
+		input[type="submit"] {
+			background: var(--color-primary);
+			border: 1px solid var(--color-primary);
+			color: var(--color-secondary);
+			padding: 10px;
+			cursor: pointer;
+			transition: 0.1s ease-in-out;
+		}
+		input[type="submit"]:hover {
+			background: var(--color-secondary);
+			color: var(--color-primary)
+		}
+		button[type="submit"] {
+			background: var(--color-primary);
+			border: 1px solid var(--color-primary);
+			color: var(--color-secondary);
+			padding: 10px;
+			cursor: pointer;
+			transition: 0.1s ease-in-out;
+		}
+		button[type="submit"]:hover {
+			background: var(--color-secondary);
+			color: var(--color-primary)
+		}
+		.parent {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	</style>
 </head>
 <body>
+	<div class="header">Explore your .bib</div>
 
-  <div class="header">Explore your .bib</div>
-
-  <button type="button" class="dark" id="darkModeToggle" style="display: block; margin-bottom: 10px;">
-		Dark Mode
+	<button type="button" class="dark" id="darkModeToggle" style="display: block; margin-bottom: 10px;">
+	Dark Mode
 	</button>
 
-  <div class="main">
+	<div class="main">
 
-    <p>Welcome! This site offers tools for managing and exploring your .bib file:</p>
+		<p>Welcome! This site offers tools for managing and exploring your .bib file:</p>
 
-    <div class="menu">
-      <ul id="nav">
-        <li><a href="#yescite">Remove unused .bib entries</a></li>
-        <li><a href="#bibtocsv">Convert .bib to .csv</a></li>
-        <li><a href="#bibformat">Format .bib</a></li>
-        <li><a href="#arxivversions">Add arXiv versions to .bib</a></li>
-      </ul>
-    </div>
+		<div class="menu">
+			<ul id="nav">
+				<li><a href="#yescite">Remove unused .bib entries</a></li>
+				<li><a href="#bibtocsv">Convert .bib to .csv</a></li>
+				<li><a href="#bibformat">Format .bib</a></li>
+				<li><a href="#arxivversions">Add arXiv versions to .bib</a></li>
+			</ul>
+		</div>
 
-    <p>If you have ideas about new tools to add, or if you find issues with the existing tools, please <a href="https://malcolmjones.me" rel="noopener" target="_blank">contact</a> me or raise an issue on <a href="https://github.com/malcolm-jones/yescite" rel="noopener" target="_blank">GitHub</a>.</p>
+		<p>If you have ideas about new tools to add, or if you find issues with the existing tools, please <a href="https://malcolmjones.me" rel="noopener" target="_blank">contact</a> me or raise an issue on <a href="https://github.com/malcolm-jones/yescite" rel="noopener" target="_blank">GitHub</a>.</p>
 
-    <h2 id="yescite">Remove unused .bib entries</h2>
+		<h2 id="yescite">Remove unused .bib entries</h2>
 
-    <p>If you use biblatex (with the default backend&mdash;biber), then paste your .bbl and .bib files below to <b>remove any unused entries from the</b> .bib. You can find your .bbl in Overleaf by going to &#x0022;Logs and output files&#x0022; and then &#x0022;Other logs and files&#x0022;. You may need to recompile.</p>
-    
-    <form method="post" id="yescite">
-      <textarea name="input_yescite_bbl" rows="8" placeholder="Paste .bbl here..."></textarea><br><br>
-      <textarea name="input_yescite_bib" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
-      <button type="submit">Remove unused entries</button><br><br>
-    </form>
-    <textarea id="output_yescite" rows="8" placeholder="Formatted .bib will appear here."></textarea><br>
+		<p>If you use biblatex (with the default backend&mdash;biber), then paste your .bbl and .bib files below to <b>remove any unused entries from the</b> .bib. You can find your .bbl in Overleaf by going to &#x0022;Logs and output files&#x0022; and then &#x0022;Other logs and files&#x0022;. You may need to recompile.</p>
 
-    <script>
-      $(function () {
-          $(document).on('submit', '#yescite', function (e) {
-            console.log("Delegated submit handler running.");
-            e.preventDefault();
+		<form method="post" id="yescite">
+			<textarea name="input_yescite_bbl" rows="8" placeholder="Paste .bbl here..."></textarea><br><br>
+			<textarea name="input_yescite_bib" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
+			<button type="submit">Remove unused entries</button><br><br>
+		</form>
+		<textarea id="output_yescite" rows="8" placeholder="Formatted .bib will appear here."></textarea><br>
 
-            var formData = new FormData(this);
+		<script>
+			$(function () {
+				$(document).on('submit', '#yescite', function (e) {
+					console.log("Delegated submit handler running.");
+					e.preventDefault();
 
-            $.ajax({
-                url: '/yescite',
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    $('#output_yescite').val(data.processed_text);
-                }
-            });
-          });
-      });
-    </script>
+					var formData = new FormData(this);
 
-    <h2 id="bibtocsv">Convert .bib to .csv</h2>
+					$.ajax({
+						url: '/yescite',
+						method: 'POST',
+						data: formData,
+						processData: false,
+						contentType: false,
+						success: function (data) {
+							$('#output_yescite').val(data.processed_text);
+						}
+					});
+				});
+			});
+		</script>
 
-    <p>Paste your .bib below to download it as a .csv.</p>
+		<h2 id="bibtocsv">Convert .bib to .csv</h2>
 
-    <form method="post" id="bibtocsv">
-      <textarea name="input_bibtocsv" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
-      <button type="submit">Download .csv</button><br><br>
-    </form>
+		<p>Paste your .bib below to download it as a .csv.</p>
 
-    <script>
-      $(function () {
-        $(document).on('submit', '#bibtocsv', function (e) {
-          console.log("Delegated submit handler running.");
-          e.preventDefault();
+		<form method="post" id="bibtocsv">
+			<textarea name="input_bibtocsv" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
+			<button type="submit">Download .csv</button><br><br>
+		</form>
 
-          var formData = new FormData(this);
+		<script>
+			$(function () {
+				$(document).on('submit', '#bibtocsv', function (e) {
+					console.log("Delegated submit handler running.");
+					e.preventDefault();
 
-          $.ajax({
-            url: '/bibtocsv',
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            xhrFields: {
-              responseType: 'blob'
-            },
-            success: function (blob) {
-              var url = window.URL.createObjectURL(blob);
-              var a = document.createElement('a');
-              a.href = url;
-              a.download = 'bib.csv';
-              document.body.appendChild(a);
-              a.click();
-              a.remove();
-              window.URL.revokeObjectURL(url);
-            }
-          });
-        });
-      });
-    </script>
+					var formData = new FormData(this);
 
-    <h2 id="bibformat">Format .bib</h2>
+					$.ajax({
+						url: '/bibtocsv',
+						method: 'POST',
+						data: formData,
+						processData: false,
+						contentType: false,
+						xhrFields: {
+							responseType: 'blob'
+						},
+						success: function (blob) {
+							var url = window.URL.createObjectURL(blob);
+							var a = document.createElement('a');
+							a.href = url;
+							a.download = 'bib.csv';
+							document.body.appendChild(a);
+							a.click();
+							a.remove();
+							window.URL.revokeObjectURL(url);
+						}
+					});
+				});
+			});
+		</script>
 
-    <p>Paste your .bib below to give all the entries the same formatting.</p>
+		<h2 id="bibformat">Format .bib</h2>
 
-    <form method="post" id="bibformat">
-        <textarea name="input_bibformat" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
-        <button type="submit">Format .bib</button><br><br>
-    </form>
-    <textarea id="output_bibformat" rows="8" placeholder="Formatted .bib will appear here."></textarea>
+		<p>Paste your .bib below to give all the entries the same formatting.</p>
 
-    <script>
-      $(function () {
-          $(document).on('submit', '#bibformat', function (e) {
-            console.log("Delegated submit handler running.");
-            e.preventDefault();
+		<form method="post" id="bibformat">
+			<textarea name="input_bibformat" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
+			<button type="submit">Format .bib</button><br><br>
+		</form>
+		<textarea id="output_bibformat" rows="8" placeholder="Formatted .bib will appear here."></textarea>
 
-            var formData = new FormData(this);
+		<script>
+			$(function () {
+				$(document).on('submit', '#bibformat', function (e) {
+					console.log("Delegated submit handler running.");
+					e.preventDefault();
 
-            $.ajax({
-                url: '/bibformat',
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    $('#output_bibformat').val(data.processed_text);
-                }
-            });
-          });
-      });
-    </script>
+					var formData = new FormData(this);
 
-    <h2 id="arxivversions">Add arXiv versions to .bib</h2>
+					$.ajax({
+						url: '/bibformat',
+						method: 'POST',
+						data: formData,
+						processData: false,
+						contentType: false,
+						success: function (data) {
+							$('#output_bibformat').val(data.processed_text);
+						}
+					});
+				});
+			});
+		</script>
 
-    <p>Paste your .bib below to add links to arXiv versions if a unique match can be found. (Processing time may be approximately 3 entries per second.)</p>
+		<h2 id="arxivversions">Add arXiv versions to .bib</h2>
 
-    <form method="post" id="arxivversions">
-        <textarea name="input_arxivversions" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
-        <button type="submit">Add arXiv versions</button><br><br>
-    </form>
-    <textarea id="output_arxivversions" rows="8" placeholder=".bib with arXiv versions will appear here."></textarea>
+		<p>Paste your .bib below to add links to arXiv versions if a unique match can be found. (Processing time may be approximately 3 entries per second.)</p>
 
-    <script>
-      $(function () {
-          $(document).on('submit', '#arxivversions', function (e) {
-            console.log("Delegated submit handler running.");
-            e.preventDefault();
+		<form method="post" id="arxivversions">
+			<textarea name="input_arxivversions" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
+			<button type="submit">Add arXiv versions</button><br><br>
+		</form>
+		<textarea id="output_arxivversions" rows="8" placeholder=".bib with arXiv versions will appear here."></textarea>
 
-            var formData = new FormData(this);
+		<script>
+			$(function () {
+				$(document).on('submit', '#arxivversions', function (e) {
+					console.log("Delegated submit handler running.");
+					e.preventDefault();
 
-            $.ajax({
-                url: '/arxivversions',
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    $('#output_arxivversions').val(data.processed_text);
-                }
-            });
-          });
-      });
-    </script>
+					var formData = new FormData(this);
 
-    <p>Mistakes may occur. If the arXiv version for an entry is either incorrect or missing, please let me know. Thank you to arXiv for use of its open access interoperability.</p>
-    <p>One motivation for this tool is that some journals, including the <a href="https://nyjm.albany.edu/Instr.html">New York Journal of Mathematics</a>, include links to arXiv versions in their bibliography style.</p>
+					$.ajax({
+						url: '/arxivversions',
+						method: 'POST',
+						data: formData,
+						processData: false,
+						contentType: false,
+						success: function (data) {
+							$('#output_arxivversions').val(data.processed_text);
+						}
+					});
+				});
+			});
+		</script>
 
-    <!-- <h2>AJAX Example</h2>
+		<p>Mistakes may occur. If the arXiv version for an entry is either incorrect or missing, please let me know. Thank you to arXiv for use of its open access interoperability.</p>
+		<p>One motivation for this tool is that some journals, including the <a href="https://nyjm.albany.edu/Instr.html">New York Journal of Mathematics</a>, include links to arXiv versions in their bibliography style.</p>
 
-    <form method="post" id="exampleAJAX">
-        <textarea name="exampleAJAX_input_1" rows="8" placeholder="You can have this input..."></textarea><br><br>
-        <textarea name="exampleAJAX_input_2" rows="8" placeholder="... and this input too."></textarea><br><br>
-        <button type="submit">AJAX Example</button><br><br>
-    </form>
-    <textarea id="exampleAJAXResult" rows="8" placeholder="Output will appear here."></textarea>
+		<!-- <h2>AJAX Example</h2>
 
-    <script>
-      $(function () {
-            $(document).on('submit', '#exampleAJAX', function (e) {
-              console.log("Delegated submit handler running.");
-              e.preventDefault();
+		<form method="post" id="exampleAJAX">
+			<textarea name="exampleAJAX_input_1" rows="8" placeholder="You can have this input..."></textarea><br><br>
+			<textarea name="exampleAJAX_input_2" rows="8" placeholder="... and this input too."></textarea><br><br>
+			<button type="submit">AJAX Example</button><br><br>
+		</form>
+		<textarea id="exampleAJAXResult" rows="8" placeholder="Output will appear here."></textarea>
 
-              var formData = new FormData(this);
+		<script>
+			$(function () {
+				$(document).on('submit', '#exampleAJAX', function (e) {
+					console.log("Delegated submit handler running.");
+					e.preventDefault();
 
-              $.ajax({
-                  url: '/exampleAJAX',
-                  method: 'POST',
-                  data: formData,
-                  processData: false,
-                  contentType: false,
-                  success: function (data) {
-                      $('#exampleAJAXResult').val(data.processed_text);
-                  }
-              });
-          });
-      });
-    </script> -->
+					var formData = new FormData(this);
 
-    <div class="parent">
-      <div class="inline-block">
-        <p id="badge">
-          <a href="https://github.com/malcolm-jones/yescite"><i class="fab fa-github" style='font-size:40px'></i></a>
-        </p>
-        <p id="badge">
-          <a href="https://www.buymeacoffee.com/malcolmjones"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="40px"></a>
-        </p>
-      </div>
-    </div>
-    
-  </div>
-    
+					$.ajax({
+						url: '/exampleAJAX',
+						method: 'POST',
+						data: formData,
+						processData: false,
+						contentType: false,
+						success: function (data) {
+							$('#exampleAJAXResult').val(data.processed_text);
+						}
+					});
+				});
+			});
+		</script> -->
+
+		<div class="parent">
+			<div class="inline-block">
+				<p id="badge">
+					<a href="https://github.com/malcolm-jones/yescite"><i class="fab fa-github" style='font-size:40px'></i></a>
+				</p>
+				<p id="badge">
+					<a href="https://www.buymeacoffee.com/malcolmjones"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="40px"></a>
+				</p>
+			</div>
+		</div>
+
+	</div>
+
 	<div id="footer">
 		<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://malcolmjones.me">This website</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://malcolmjones.me">Malcolm Jones</a> is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 	</div>	
 
-  <script>
+	<script>
 		const toggleButton = document.getElementById("darkModeToggle");
 
 		// Default to dark mode unless localStorage says otherwise
 		document.addEventListener("DOMContentLoaded", () => {
-		if (localStorage.getItem("darkMode") !== "disabled") {
-			document.body.classList.add("dark-mode");
-			toggleButton.textContent = "Light Mode";
-		}
+			if (localStorage.getItem("darkMode") !== "disabled") {
+				document.body.classList.add("dark-mode");
+				toggleButton.textContent = "Light Mode";
+			}
 		});
 
 		toggleButton.addEventListener("click", () => {
-		document.body.classList.toggle("dark-mode");
+			document.body.classList.toggle("dark-mode");
 
-		if (document.body.classList.contains("dark-mode")) {
-			toggleButton.textContent = "Light Mode";
-			localStorage.setItem("darkMode", "enabled");
-		} else {
-			toggleButton.textContent = "Dark Mode";
-			localStorage.setItem("darkMode", "disabled");
-		}
+			if (document.body.classList.contains("dark-mode")) {
+				toggleButton.textContent = "Light Mode";
+				localStorage.setItem("darkMode", "enabled");
+			} else {
+				toggleButton.textContent = "Dark Mode";
+				localStorage.setItem("darkMode", "disabled");
+			}
 		});
 	</script>
-
-  {% if scrollToAnchor %}
-  <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          document.location.hash = '#{{ scrollToAnchor }}';
-      });
-  </script>
-  {% endif %}
-
 </body>
 </html>
