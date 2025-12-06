@@ -96,30 +96,20 @@ def download_csv():
 def bibformat():
     endpoint_code = "bibformat"
     usage.add_log(endpoint_code)
-    input_bibformat = request.form.get('input_bibformat', '')
-    if (
-        not valid_bibformat(input_bibformat)
-    ):
-        usage.add_log(": ".join([
-            endpoint_code,
-            "Input failed validation.",
-        ]))
-        return render_template(
-            'index.html', 
-            input_bibformat=input_bibformat, 
-            message_bibformat=os.getenv("VALIDATION_MESSAGE"),
-            scrollToAnchor='message-bibformat',
-        )
-    else:
-        lines_bib = input_bibformat.splitlines()
-        df = bib_to_df(lines_bib)
-        output_bibformat = extract_entries(df)
-        return render_template(
-            'index.html', 
-            input_bibformat=input_bibformat, 
-            output_bibformat=output_bibformat,
-            scrollToAnchor='output_bibformat',
-        )
+    if request.method == "POST":
+        usage.add_log("POST")
+        input_bibformat = request.form["input_bibformat"]
+        if (
+            not valid_bibformat(input_bibformat)
+        ):
+            usage.add_log("Failed validation.")
+            return jsonify({"processed_text": os.getenv("VALIDATION_MESSAGE")})
+        else:
+            usage.add_log("Passed validation.")
+            lines_bib = input_bibformat.splitlines()
+            df = bib_to_df(lines_bib)
+            output_bibformat = extract_entries(df)
+            return jsonify({"processed_text": f"{output_bibformat}"})
 
 @app.route('/arxivversions', methods=['POST'])
 def arxivversions():

@@ -137,18 +137,35 @@
 
     <h2 id="bibformat">Format .bib</h2>
 
-    <p id="message-bibformat">
-        <i>
-          {{ message_bibformat }}
-        </i>
-    </p>
+    <p>Paste your .bib below to give all the entries the same formatting.</p>
 
-    <p>Paste your .bib below to give all the entries the same formatting. The next version of this tool will allow you to choose various formatting options for yourself.</p>
-    <form action="/bibformat" method="post">
-      <textarea placeholder="Paste .bib here..." name="input_bibformat" rows="8">{{ input_bibformat }}</textarea><br><br>
-      <button type="submit">Format .bib</button>
-    </form><br>
-    <textarea placeholder="Formatted .bib will appear here." id="output_bibformat" rows="8">{{ output_bibformat }}</textarea><br>
+    <form method="post" id="bibformat" enctype="multipart/form-data">
+        <textarea name="input_bibformat" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
+        <button type="submit">Format .bib</button><br><br>
+    </form>
+    <textarea id="output_bibformat" rows="8" placeholder="Formatted .bib will appear here."></textarea>
+
+    <script>
+      $(function () {
+          $(document).on('submit', '#bibformat', function (e) {
+            console.log("Delegated submit handler running.");
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: '/bibformat',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $('#output_bibformat').text(data.processed_text);
+                }
+            });
+          });
+      });
+    </script>
 
     <h2 id="arxivversions">Add arXiv versions to .bib</h2>
 
