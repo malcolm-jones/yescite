@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-from flask import Flask, request, render_template, Response
+from flask import Flask, request, render_template, Response, jsonify
 import io
 
 from yescite import YesCite, bib_to_df, extract_entries, add_arXiv_versions
@@ -155,6 +155,15 @@ def arxivversions():
             output_arxivversions=output_arxivversions,
             scrollToAnchor='output_arxivversions',
         )
+    
+# @app.route('/exampleAJAX', methods=['GET', 'POST'])
+# def exampleAJAX():
+#     if request.method == 'POST':
+#         input_1 = request.form['exampleAJAX_input_1']
+#         input_2 = request.form['exampleAJAX_input_2']
+#         return jsonify({
+#             "processed_text": f"Received: {input_1} and {input_2}"
+#         })
 
 @app.route("/crash")
 def crash():

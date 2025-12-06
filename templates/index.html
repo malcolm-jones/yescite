@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
 
   <script src="main.js" type="module"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 	<title>YesCite</title>
 
@@ -165,6 +166,36 @@
     <textarea placeholder=".bib with arXiv versions will appear here." id="output_arxivversions" rows="8">{{ output_arxivversions }}</textarea><br>
     <p>Mistakes may occur. If the arXiv version for an entry is either incorrect or missing, please let me know. Thank you to arXiv for use of its open access interoperability.</p>
     <p>One motivation for this tool is that some journals, including the <a href="https://nyjm.albany.edu/Instr.html">New York Journal of Mathematics</a>, include links to arXiv versions in their bibliography style.</p>
+
+    <!-- <h2>AJAX Example</h2>
+
+    <form method="post" id="exampleAJAX" enctype="multipart/form-data">
+        <textarea name="exampleAJAX_input_1" rows="8" placeholder="You can have this input..."></textarea><br><br>
+        <textarea name="exampleAJAX_input_2" rows="8" placeholder="... and this input too."></textarea><br><br>
+        <button type="submit">AJAX Example</button><br><br>
+    </form>
+    <textarea id="exampleAJAXResult" rows="8" placeholder="Output will appear here."></textarea>
+
+    <script>
+      $(function () {
+          $('#exampleAJAX').on('submit', function (e) {
+              e.preventDefault();
+
+              var formData = new FormData(this);
+
+              $.ajax({
+                  url: '/exampleAJAX',
+                  method: 'POST',
+                  data: formData,
+                  processData: false,
+                  contentType: false,
+                  success: function (data) {
+                      $('#exampleAJAXResult').text(data.processed_text);
+                  }
+              });
+          });
+      });
+    </script> -->
 
     <div class="parent">
       <div class="inline-block">
