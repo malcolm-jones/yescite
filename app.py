@@ -22,45 +22,28 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def index():
     usage.add_log("Index")
+    return render_template('index.html')
 
-    input_bbl = ''
-    input_bib_YesCite = ''
-    output_yescite = ''
-    output_aliases_used = ''
-    output_aliases_unused = ''
-
-    if request.method == 'POST':    
-        endpoint_code = "YesCite"
-        usage.add_log(endpoint_code)
-        input_bbl = request.form.get('input_bbl')
-        input_bib_YesCite = request.form.get('input_bib_YesCite')
+@app.route('/yescite', methods=['POST'])
+def yescite():
+    endpoint_code = "yescite"
+    usage.add_log(endpoint_code)
+    if request.method == "POST":
+        usage.add_log("POST")
+        input_yescite_bbl = request.form['input_yescite_bbl']
+        input_yescite_bib = request.form['input_yescite_bib']
         if (
-            not valid_yescite(input_bbl, input_bib_YesCite)
+            not valid_yescite(input_yescite_bbl, input_yescite_bib)
         ):
-            usage.add_log(": ".join([
-                endpoint_code, 
-                "Input failed validation.",
-            ]))
-            return render_template(
-                'index.html',  
-                message_yescite=os.getenv("VALIDATION_MESSAGE"),
-                scrollToAnchor='message-yescite',
-            )
-        lines_bbl = input_bbl.splitlines()
-        lines_bib = input_bib_YesCite.splitlines()
-        yc = YesCite(lines_bbl, lines_bib)
-        output_yescite = '\n'.join(yc.yescite)
-        output_aliases_used = yc.aliases_used
-        output_aliases_unused = yc.aliases_unused
-    
-    return render_template(
-        'index.html', 
-        input_bbl=input_bbl, 
-        input_bib_YesCite=input_bib_YesCite, 
-        output_yescite=output_yescite,
-        output_aliases_used=output_aliases_used,
-        output_aliases_unused=output_aliases_unused,
-    )
+            usage.add_log("Failed validation.")
+            return jsonify({"processed_text": os.getenv("VALIDATION_MESSAGE")})
+        else:
+            usage.add_log("Passed validation.")
+            lines_bbl = input_yescite_bbl.splitlines()
+            lines_bib = input_yescite_bib.splitlines()
+            yc = YesCite(lines_bbl, lines_bib)
+            output_yescite = '\n'.join(yc.yescite)
+            return jsonify({"processed_text": f"{output_yescite}"})
 
 @app.route('/bibtocsv', methods=['POST'])
 def bibtocsv():

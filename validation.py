@@ -11,10 +11,10 @@ def some_line_starts_with(lines, symbol):
 
 # Validation for each input
 
-def valid_bbl(input_bbl):
-    lines_bbl = input_bbl.splitlines()
+def valid_bbl(input_yescite_bbl):
+    lines_bbl = input_yescite_bbl.splitlines()
     return (
-        utf8len(input_bbl) < int(os.getenv("INPUT_LIMIT"))
+        utf8len(input_yescite_bbl) < int(os.getenv("INPUT_LIMIT"))
         and some_line_starts_with(lines_bbl, "\entry")
     )
 
@@ -27,9 +27,9 @@ def valid_bib(input_bib):
 
 # Validation for each endpoint
 
-def valid_yescite(input_bbl, input_bib):
+def valid_yescite(input_yescite_bbl, input_bib):
     return (
-        valid_bbl(input_bbl)
+        valid_bbl(input_yescite_bbl)
         and valid_bib(input_bib)
     )
 
