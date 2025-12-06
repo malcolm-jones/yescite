@@ -126,7 +126,7 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    $('#output_yescite').text(data.processed_text);
+                    $('#output_yescite').val(data.processed_text);
                 }
             });
           });
@@ -199,7 +199,7 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    $('#output_bibformat').text(data.processed_text);
+                    $('#output_bibformat').val(data.processed_text);
                 }
             });
           });
@@ -231,7 +231,7 @@
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    $('#output_arxivversions').text(data.processed_text);
+                    $('#output_arxivversions').val(data.processed_text);
                 }
             });
           });
@@ -265,7 +265,7 @@
                   processData: false,
                   contentType: false,
                   success: function (data) {
-                      $('#exampleAJAXResult').text(data.processed_text);
+                      $('#exampleAJAXResult').val(data.processed_text);
                   }
               });
           });
