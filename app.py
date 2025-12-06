@@ -62,35 +62,30 @@ def index():
         output_aliases_unused=output_aliases_unused,
     )
 
-@app.route('/download_csv', methods=['POST'])
-def download_csv():
-    endpoint_code = "bib2csv"
+@app.route('/bibtocsv', methods=['POST'])
+def bibtocsv():
+    endpoint_code = "bibtocsv"
     usage.add_log(endpoint_code)
-    input_bib_to_csv = request.form.get('input_bib_to_csv', '')
-    if (
-        not valid_bibtocsv(input_bib_to_csv)
-    ):
-        usage.add_log(": ".join([
-            endpoint_code,
-            "Input failed validation.",
-        ]))
-        return render_template(
-            'index.html', 
-            input_bib_to_csv=input_bib_to_csv, 
-            message_bibtocsv=os.getenv("VALIDATION_MESSAGE"),
-            scrollToAnchor='message-bibtocsv',
-        )
-    else:
-        lines_bib = input_bib_to_csv.splitlines()
-        df = bib_to_df(lines_bib)
-        csv_buffer = io.StringIO()
-        df.to_csv(csv_buffer, index=False)
-        csv_buffer.seek(0)
-        return Response(
-            csv_buffer,
-            mimetype='text/csv',
-            headers={"Content-Disposition": "attachment;filename=bib.csv"}
-        )
+    if request.method == "POST":
+        usage.add_log("POST")
+        input_bibtocsv = request.form['input_bibtocsv']
+        if (
+            not valid_bibtocsv(input_bibtocsv)
+        ):
+            usage.add_log("Failed validation.")
+            return jsonify({"processed_text": os.getenv("VALIDATION_MESSAGE")})
+        else:
+            usage.add_log("Passed validation.")
+            lines_bib = input_bibtocsv.splitlines()
+            df = bib_to_df(lines_bib)
+            csv_buffer = io.StringIO()
+            df.to_csv(csv_buffer, index=False)
+            csv_buffer.seek(0)
+            return Response(
+                csv_buffer,
+                mimetype='text/csv',
+                headers={"Content-Disposition": "attachment;filename=bib.csv"}
+            )
 
 @app.route('/bibformat', methods=['POST'])
 def bibformat():

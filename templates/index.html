@@ -118,22 +118,46 @@
     <textarea placeholder="Tidied .bib will appear here." id="output_yescite" rows="8">{{ output_yescite }}</textarea><br>
     <p>The tidied .bib includes:<br>{{ output_aliases_used }}<br>and excludes:<br>{{ output_aliases_unused }}.</p>
 
-    <h2 id="bibtocsv">Convert your .bib to a .csv</h2>
+    <h2 id="bibtocsv">Convert .bib to .csv</h2>
 
-    <p id="message-bibtocsv">
-        <i>
-          {{ message_bibtocsv }}
-        </i>
-    </p>
+    <p>Paste your .bib below to download it as a .csv.</p>
 
-    <p>
-      Paste your .bib below to download it as a .csv.
-    </p>
-    <form action="/download_csv" method="post">
-      <textarea placeholder="Paste .bib here..." name="input_bib_to_csv" rows="8">{{ input_bib_to_csv }}</textarea><br><br>
-      <button type="submit">Download .csv</button>
+    <form method="post" id="bibtocsv" enctype="multipart/form-data">
+      <textarea name="input_bibtocsv" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
+      <button type="submit">Download .csv</button><br><br>
     </form>
-    <p>{{ output_bib_to_csv }}</p>
+
+    <script>
+      $(function () {
+        $(document).on('submit', '#bibtocsv', function (e) {
+          console.log("Delegated submit handler running.");
+          e.preventDefault();
+
+          var formData = new FormData(this);
+
+          $.ajax({
+            url: '/bibtocsv',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            xhrFields: {
+              responseType: 'blob'
+            },
+            success: function (blob) {
+              var url = window.URL.createObjectURL(blob);
+              var a = document.createElement('a');
+              a.href = url;
+              a.download = 'bib.csv';
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              window.URL.revokeObjectURL(url);
+            }
+          });
+        });
+      });
+    </script>
 
     <h2 id="bibformat">Format .bib</h2>
 
