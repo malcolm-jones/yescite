@@ -125,36 +125,23 @@ def bibformat():
 def arxivversions():
     endpoint_code = "arxivversions"
     usage.add_log(endpoint_code)
-    input_arxivversions = request.form.get('input_arxivversions', '')
-    if (
-        not valid_arxivversions(input_arxivversions)
-    ):
-        usage.add_log(": ".join([
-            endpoint_code,
-            "Input failed validation.",
-        ]))
-        return render_template(
-            'index.html', 
-            input_arxivversions=input_arxivversions, 
-            message_arxivversions=os.getenv("VALIDATION_MESSAGE"),
-            scrollToAnchor='message-arxivversions',
-        )
-    else:
-        lines_bib = input_arxivversions.splitlines()
-        df = bib_to_df(lines_bib)
-        df, num_unique_matches = add_arXiv_versions(df)
-        usage.add_log(": ".join([
-            endpoint_code,
-            f"{num_unique_matches} out of {len(df)} entries had unique " 
-            "matches on arXiv.",
-        ]))
-        output_arxivversions = extract_entries(df)
-        return render_template(
-            'index.html', 
-            input_arxivversions=input_arxivversions, 
-            output_arxivversions=output_arxivversions,
-            scrollToAnchor='output_arxivversions',
-        )
+    if request.method == "POST":
+        usage.add_log("POST")
+        input_arxivversions = request.form['input_arxivversions']
+        if (
+            not valid_arxivversions(input_arxivversions)
+        ):
+            usage.add_log("Failed validation.")
+            return jsonify({"processed_text": os.getenv("VALIDATION_MESSAGE")})
+        else:
+            usage.add_log("Passed validation.")
+            lines_bib = input_arxivversions.splitlines()
+            df = bib_to_df(lines_bib)
+            df, num_unique_matches = add_arXiv_versions(df)
+            usage.add_log(f"{num_unique_matches} out of {len(df)} entries "
+                "had unique matches on arXiv.")
+            output = extract_entries(df)
+            return jsonify({"processed_text": f"{output}"})
     
 # @app.route('/exampleAJAX', methods=['GET', 'POST'])
 # def exampleAJAX():
@@ -174,4 +161,4 @@ def internal_error(e):
     return render_template("500.html"), 500
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

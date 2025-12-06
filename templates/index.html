@@ -152,18 +152,36 @@
 
     <h2 id="arxivversions">Add arXiv versions to .bib</h2>
 
-    <p id="message-arxivversions">
-        <i>
-          {{ message_arxivversions }}
-        </i>
-    </p>
-
     <p>Paste your .bib below to add links to arXiv versions if a unique match can be found. (Processing time may be approximately 3 entries per second.)</p>
-    <form action="/arxivversions" method="post">
-      <textarea placeholder="Paste .bib here..." name="input_arxivversions" rows="8">{{ input_arxivversions }}</textarea><br><br>
-      <button type="submit">Add arXiv versions to .bib</button>
-    </form><br>
-    <textarea placeholder=".bib with arXiv versions will appear here." id="output_arxivversions" rows="8">{{ output_arxivversions }}</textarea><br>
+
+    <form method="post" id="arxivversions" enctype="multipart/form-data">
+        <textarea name="input_arxivversions" rows="8" placeholder="Paste .bib here..."></textarea><br><br>
+        <button type="submit">Add arXiv versions</button><br><br>
+    </form>
+    <textarea id="output_arxivversions" rows="8" placeholder=".bib with arXiv versions will appear here."></textarea>
+
+    <script>
+      $(function () {
+          $(document).on('submit', '#arxivversions', function (e) {
+            console.log("Delegated submit handler running.");
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: '/arxivversions',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $('#output_arxivversions').text(data.processed_text);
+                }
+            });
+          });
+      });
+    </script>
+
     <p>Mistakes may occur. If the arXiv version for an entry is either incorrect or missing, please let me know. Thank you to arXiv for use of its open access interoperability.</p>
     <p>One motivation for this tool is that some journals, including the <a href="https://nyjm.albany.edu/Instr.html">New York Journal of Mathematics</a>, include links to arXiv versions in their bibliography style.</p>
 
