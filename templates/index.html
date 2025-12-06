@@ -178,7 +178,8 @@
 
     <script>
       $(function () {
-          $('#exampleAJAX').on('submit', function (e) {
+            $(document).on('submit', '#exampleAJAX', function (e) {
+              console.log("Delegated submit handler running.");
               e.preventDefault();
 
               var formData = new FormData(this);
